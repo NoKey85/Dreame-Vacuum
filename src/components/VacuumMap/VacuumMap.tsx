@@ -262,7 +262,7 @@ export function VacuumMap({
 
               <div
                 className="vacuum-map__obstacle-click-layer"
-                onPointerUp={(event) => {
+                onClick={(event) => {
                   const image = contentRef.current?.querySelector<HTMLImageElement>('.vacuum-map__image');
                   if (!image || !imageDimensions.width || !imageDimensions.height) return;
                   const rect = image.getBoundingClientRect();
@@ -278,7 +278,7 @@ export function VacuumMap({
                       nearestDistance = distance;
                     }
                   }
-                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.065;
+                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.1;
                   if (nearest && nearestDistance <= hitRadius) {
                     event.stopPropagation();
                     setSelectedObstacle(nearest);
