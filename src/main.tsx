@@ -10,7 +10,7 @@ import styles from './styles.scss?inline';
 // Attach logger controls to window for dev tools access
 attachLoggerToWindow();
 
-class DreameVacuumMapCard extends HTMLElement {
+class DreameVacuumOverlayCard extends HTMLElement {
   private _root: ReactDOM.Root | null = null;
   private _hass?: Hass;
   private _config?: HassConfig;
@@ -75,14 +75,14 @@ class DreameVacuumMapCard extends HTMLElement {
 
   static getStubConfig() {
     return {
-      type: 'custom:dreame-vacuum-map-card',
+      type: 'custom:dreame-vacuum-overlay-card',
       entity: 'vacuum.dreame_vacuum',
       title: 'Dreame Vacuum',
     };
   }
 }
 
-customElements.define('dreame-vacuum-map-card', DreameVacuumMapCard);
+customElements.define('dreame-vacuum-overlay-card', DreameVacuumOverlayCard);
 
 declare global {
   interface Window {
@@ -97,11 +97,11 @@ declare global {
 // Register card with Home Assistant custom cards list
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: 'dreame-vacuum-map-card',
+  type: 'dreame-vacuum-overlay-card',
   name: 'Dreame Vacuum Map Card',
   description: 'Custom vacuum map card for Dreame vacuum cleaners',
 });
 
-logger.info('Dreame Vacuum Map Card (React) loaded');
+logger.info('Dreame Vacuum Overlay Card (React) loaded');
 
-export default DreameVacuumMapCard;
+export default DreameVacuumOverlayCard;
