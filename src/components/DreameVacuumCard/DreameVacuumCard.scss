@@ -87,47 +87,32 @@
       --wide-max-height: calc(100dvh - var(--header-height, 56px) - 1rem);
 
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr);
-      grid-template-areas: 'map';
+      grid-template-columns: minmax(18rem, 28rem) minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-areas:
+        'header map'
+        'footer map';
       align-items: stretch;
-      position: relative;
-      min-height: min(42rem, var(--map-max-height, 42rem));
       max-height: var(--wide-max-height);
     }
 
-    &__header,
-    &__footer {
-      position: absolute;
-      inset-inline-start: 1rem;
-      z-index: 10;
-      width: min(22rem, calc(100% - 2rem));
-      box-sizing: border-box;
-      background: color-mix(in srgb, var(--card-bg) 82%, transparent);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
-      box-shadow: 0 0.5rem 1.5rem var(--card-shadow);
-    }
-
     &__header {
-      top: 1rem;
-      border-radius: 0.75rem 0.75rem 0 0;
-      padding-top: 0.25rem;
+      grid-area: header;
+      align-self: start;
     }
 
     &__footer {
-      top: 12.5rem;
-      max-height: calc(100% - 13.5rem);
+      grid-area: footer;
+      justify-content: safe flex-end;
+      min-height: 0;
       overflow-y: auto;
-      border-radius: 0 0 0.75rem 0.75rem;
-      padding-top: 0.75rem;
     }
 
     &__map {
       display: flex;
       grid-area: map;
-      padding: 1.25rem;
+      padding-block: 1.25rem;
+      padding-inline-end: 1.25rem;
 
       .vacuum-map {
         flex: 1;
