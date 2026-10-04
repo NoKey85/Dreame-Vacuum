@@ -314,8 +314,6 @@ export function DreameVacuumCard({ hass, config }: DreameVacuumCardProps) {
           <div className="dreame-vacuum-card__header">
             <Header deviceName={deviceName} onSettingsClick={handleSettingsOpen} />
 
-            <MapSelector />
-
             {diagnostic && <p className="dreame-vacuum-card__diagnostic">{t(`vacuum_map.diagnostic_${diagnostic}`)}</p>}
           </div>
 
