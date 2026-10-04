@@ -72,6 +72,10 @@ class DreameObstaclePictureDialog extends HTMLElement {
     };
     dialog.open = true;
     dialog.width = 'medium';
+    dialog.style.setProperty('--dialog-content-padding', '0');
+    dialog.style.setProperty('--dialog-content-position', 'static');
+    dialog.style.setProperty('--ha-dialog-max-height', '90vh');
+    dialog.style.setProperty('--ha-dialog-width-md', 'min(90vw, 580px)');
     dialog.hideCloseButton = true;
     dialog.withoutHeader = true;
     dialog.addEventListener('closed', this.finishClose, { once: true });
