@@ -67,10 +67,13 @@ class DreameObstaclePictureDialog extends HTMLElement {
       open?: boolean;
       width?: string;
       headerTitle?: string;
+      hideCloseButton?: boolean;
+      withoutHeader?: boolean;
     };
     dialog.open = true;
     dialog.width = 'medium';
     dialog.headerTitle = this._params.type ?? this._params.title ?? 'Detected obstacle';
+    dialog.hideCloseButton = true;
     dialog.addEventListener('closed', this.finishClose, { once: true });
     this._dialog = dialog;
 
