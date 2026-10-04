@@ -138,9 +138,9 @@
       }
 
       .header__top {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: auto 2.75rem;
+        align-items: center;
         gap: 0.5rem;
       }
 
@@ -154,13 +154,22 @@
       }
 
       .header__stats {
-        order: 1;
         display: flex;
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
         margin: 0;
         gap: 0.5rem;
+      }
+
+      .header__status {
+        width: max-content;
+        min-width: 6.5rem;
+        margin: 0;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.75rem;
+        background: var(--surface-bg);
+        box-shadow: 0 0.125rem 0.5rem var(--card-shadow);
       }
 
       .header__stat {
@@ -173,7 +182,6 @@
       }
 
       .header__settings-btn {
-        order: 2;
         width: 2.75rem;
         height: 2.75rem;
         background: var(--surface-bg);
