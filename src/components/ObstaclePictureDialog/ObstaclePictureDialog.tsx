@@ -74,17 +74,9 @@ class DreameObstaclePictureDialog extends HTMLElement {
     dialog.width = 'medium';
     dialog.headerTitle = this._params.type ?? this._params.title ?? 'Detected obstacle';
     dialog.hideCloseButton = true;
+    dialog.withoutHeader = true;
     dialog.addEventListener('closed', this.finishClose, { once: true });
     this._dialog = dialog;
-
-    const close = document.createElement('button');
-    close.type = 'button';
-    close.slot = 'headerActionItems';
-    close.className = 'dreame-obstacle-dialog__close';
-    close.setAttribute('aria-label', 'Close');
-    close.textContent = '×';
-    close.addEventListener('click', () => this.closeDialog());
-    dialog.appendChild(close);
 
     const body = document.createElement('div');
     body.className = 'dreame-obstacle-dialog';
