@@ -1,0 +1,64 @@
+{
+  "name": "dreame-vacuum-card-react",
+  "private": true,
+  "version": "1.6.1",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Noam Bergauz",
+    "email": "bergauznoam@gmail.com"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:scss": "stylelint \"src/**/*.scss\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,scss}\"",
+    "validate:translations": "tsx --tsconfig tsconfig.app.json scripts/validate-translations.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "src/**/*.scss": [
+      "prettier --write",
+      "stylelint --fix"
+    ]
+  },
+  "dependencies": {
+    "lucide-react": "^0.563.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-zoom-pan-pinch": "^4.0.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "helmet": "^8.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "sass": "^1.97.1",
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4",
+    "vitest": "^5.0.3"
+  }
+}
