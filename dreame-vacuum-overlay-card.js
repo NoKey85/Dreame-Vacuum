@@ -166,10 +166,10 @@ function Tb() {
         ) + "/") + ge
       )), P.push(_e)), 1;
     ge = 0;
-    var Re = Q === "" ? "." : Q + ":";
+    var je = Q === "" ? "." : Q + ":";
     if (K(E))
       for (var Ee = 0; Ee < E.length; Ee++)
-        Q = E[Ee], ce = Re + J(Q, Ee), ge += M(
+        Q = E[Ee], ce = je + J(Q, Ee), ge += M(
           Q,
           P,
           X,
@@ -178,7 +178,7 @@ function Tb() {
         );
     else if (Ee = w(E), typeof Ee == "function")
       for (E = Ee.call(E), Ee = 0; !(Q = E.next()).done; )
-        Q = Q.value, ce = Re + J(Q, Ee++), ge += M(
+        Q = Q.value, ce = je + J(Q, Ee++), ge += M(
           Q,
           P,
           X,
@@ -289,8 +289,8 @@ function Tb() {
     var ce = arguments.length - 2;
     if (ce === 1) Q.children = X;
     else if (1 < ce) {
-      for (var ge = Array(ce), Re = 0; Re < ce; Re++)
-        ge[Re] = arguments[Re + 2];
+      for (var ge = Array(ce), je = 0; je < ce; je++)
+        ge[je] = arguments[je + 2];
       Q.children = ge;
     }
     return Y(E.type, _e, Q);
@@ -314,9 +314,9 @@ function Tb() {
     var ge = arguments.length - 2;
     if (ge === 1) _e.children = X;
     else if (1 < ge) {
-      for (var Re = Array(ge), Ee = 0; Ee < ge; Ee++)
-        Re[Ee] = arguments[Ee + 2];
-      _e.children = Re;
+      for (var je = Array(ge), Ee = 0; Ee < ge; Ee++)
+        je[Ee] = arguments[Ee + 2];
+      _e.children = je;
     }
     if (E && E.defaultProps)
       for (Q in ge = E.defaultProps, ge)
@@ -948,7 +948,7 @@ function Mb() {
     ye++, ve[ye] = e.current, e.current = t;
   }
   var Q = E(null), _e = E(null), ce = E(null), ge = E(null);
-  function Re(e, t) {
+  function je(e, t) {
     switch (X(ce, t), X(_e, e), X(Q, null), t.nodeType) {
       case 9:
       case 11:
@@ -1124,7 +1124,7 @@ Error generating stack: ` + r.message + `
 ` + r.stack;
     }
   }
-  var Un = Object.prototype.hasOwnProperty, oe = a.unstable_scheduleCallback, Me = a.unstable_cancelCallback, Tt = a.unstable_shouldYield, Qt = a.unstable_requestPaint, je = a.unstable_now, Jt = a.unstable_getCurrentPriorityLevel, Ea = a.unstable_ImmediatePriority, Rt = a.unstable_UserBlockingPriority, At = a.unstable_NormalPriority, xt = a.unstable_LowPriority, Ta = a.unstable_IdlePriority, ga = a.log, sv = a.unstable_setDisableYieldValue, to = null, Gt = null;
+  var Un = Object.prototype.hasOwnProperty, oe = a.unstable_scheduleCallback, Re = a.unstable_cancelCallback, Tt = a.unstable_shouldYield, Qt = a.unstable_requestPaint, Me = a.unstable_now, Jt = a.unstable_getCurrentPriorityLevel, Ea = a.unstable_ImmediatePriority, Rt = a.unstable_UserBlockingPriority, At = a.unstable_NormalPriority, xt = a.unstable_LowPriority, Ta = a.unstable_IdlePriority, ga = a.log, sv = a.unstable_setDisableYieldValue, to = null, Gt = null;
   function an(e) {
     if (typeof ga == "function" && sv(e), Gt && typeof Gt.setStrictMode == "function")
       try {
@@ -2757,7 +2757,7 @@ Error generating stack: ` + r.message + `
   }
   var A_ = M.S;
   M.S = function(e, t) {
-    up = je(), typeof t == "object" && t !== null && typeof t.then == "function" && dy(e, t), A_ !== null && A_(e, t);
+    up = Me(), typeof t == "object" && t !== null && typeof t.then == "function" && dy(e, t), A_ !== null && A_(e, t);
   };
   var Fn = E(null);
   function Zl() {
@@ -5120,14 +5120,14 @@ Error generating stack: ` + r.message + `
   function zy(e, t, n) {
     switch (t.tag) {
       case 3:
-        Re(t, t.stateNode.containerInfo), cn(t, st, e.memoizedState.cache), Yn();
+        je(t, t.stateNode.containerInfo), cn(t, st, e.memoizedState.cache), Yn();
         break;
       case 27:
       case 5:
         ft(t);
         break;
       case 4:
-        Re(t, t.stateNode.containerInfo);
+        je(t, t.stateNode.containerInfo);
         break;
       case 10:
         cn(
@@ -5261,7 +5261,7 @@ Error generating stack: ` + r.message + `
         );
       case 3:
         e: {
-          if (Re(
+          if (je(
             t,
             t.stateNode.containerInfo
           ), e === null) throw Error(s(387));
@@ -5368,7 +5368,7 @@ Error generating stack: ` + r.message + `
       case 13:
         return Zm(e, t, n);
       case 4:
-        return Re(
+        return je(
           t,
           t.stateNode.containerInfo
         ), r = t.pendingProps, e === null ? t.child = Qn(
@@ -5718,7 +5718,7 @@ Error generating stack: ` + r.message + `
                 }
                 e = e.sibling;
               }
-            r.tail !== null && je() > as && (t.flags |= 128, c = !0, Co(r, !1), t.lanes = 4194304);
+            r.tail !== null && Me() > as && (t.flags |= 128, c = !0, Co(r, !1), t.lanes = 4194304);
           }
         else {
           if (!c)
@@ -5726,10 +5726,10 @@ Error generating stack: ` + r.message + `
               if (t.flags |= 128, c = !0, e = e.updateQueue, t.updateQueue = e, Wr(t, e), Co(r, !0), r.tail === null && r.tailMode === "hidden" && !u.alternate && !xe)
                 return Xe(t), null;
             } else
-              2 * je() - r.renderingStartTime > as && n !== 536870912 && (t.flags |= 128, c = !0, Co(r, !1), t.lanes = 4194304);
+              2 * Me() - r.renderingStartTime > as && n !== 536870912 && (t.flags |= 128, c = !0, Co(r, !1), t.lanes = 4194304);
           r.isBackwards ? (u.sibling = t.child, t.child = u) : (e = r.last, e !== null ? e.sibling = u : t.child = u, r.last = u);
         }
-        return r.tail !== null ? (e = r.tail, r.rendering = e, r.tail = e.sibling, r.renderingStartTime = je(), e.sibling = null, n = ot.current, X(
+        return r.tail !== null ? (e = r.tail, r.rendering = e, r.tail = e.sibling, r.renderingStartTime = Me(), e.sibling = null, n = ot.current, X(
           ot,
           c ? n & 1 | 2 : n & 1
         ), xe && La(t, r.treeForkCount), e) : (Xe(t), null);
@@ -6530,7 +6530,7 @@ Error generating stack: ` + r.message + `
         qt(t, e), Ut(e), r & 4 && (r = e.updateQueue, r !== null && (e.updateQueue = null, Jr(e, r)));
         break;
       case 13:
-        qt(t, e), Ut(e), e.child.flags & 8192 && e.memoizedState !== null != (n !== null && n.memoizedState !== null) && (ts = je()), r & 4 && (r = e.updateQueue, r !== null && (e.updateQueue = null, Jr(e, r)));
+        qt(t, e), Ut(e), e.child.flags & 8192 && e.memoizedState !== null != (n !== null && n.memoizedState !== null) && (ts = Me()), r & 4 && (r = e.updateQueue, r !== null && (e.updateQueue = null, Jr(e, r)));
         break;
       case 22:
         c = e.memoizedState !== null;
@@ -7254,7 +7254,7 @@ Error generating stack: ` + r.message + `
             default:
               throw Error(s(329));
           }
-          if ((t & 62914560) === t && (c = ts + 300 - je(), 10 < c)) {
+          if ((t & 62914560) === t && (c = ts + 300 - Me(), 10 < c)) {
             if (bn(
               r,
               t,
@@ -7321,7 +7321,7 @@ Error generating stack: ` + r.message + `
         u,
         B
       );
-      var ie = (u & 62914560) === u ? ts - je() : (u & 4194048) === u ? up - je() : 0;
+      var ie = (u & 62914560) === u ? ts - Me() : (u & 4194048) === u ? up - Me() : 0;
       if (ie = pb(
         B,
         ie
@@ -7489,7 +7489,7 @@ Error generating stack: ` + r.message + `
     var n = qe;
     qe |= 2;
     var r = hp(), c = vp();
-    Ye !== e || Te !== t ? (ns = null, as = je() + 500, Vi(e, t)) : Li = ao(
+    Ye !== e || Te !== t ? (ns = null, as = Me() + 500, Vi(e, t)) : Li = ao(
       e,
       t
     );
@@ -7883,7 +7883,7 @@ Error generating stack: ` + r.message + `
   }
   function Oy(e, t, n) {
     var r = e.pingCache;
-    r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, Ye === e && (Te & n) === n && (at === 4 || at === 3 && (Te & 62914560) === Te && 300 > je() - ts ? (qe & 2) === 0 && Vi(e, 0) : jc |= n, qi === Te && (qi = 0)), Ca(e);
+    r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, Ye === e && (Te & n) === n && (at === 4 || at === 3 && (Te & 62914560) === Te && 300 > Me() - ts ? (qe & 2) === 0 && Vi(e, 0) : jc |= n, qi === Te && (qi = 0)), Ca(e);
   }
   function Np(e, t) {
     t === 0 && (t = zd()), e = In(e, t), e !== null && (no(e, t), Ca(e));
@@ -7950,7 +7950,7 @@ Error generating stack: ` + r.message + `
     cs = Zc = !1;
     var e = 0;
     kn !== 0 && Fy() && (e = kn);
-    for (var t = je(), n = null, r = ls; r !== null; ) {
+    for (var t = Me(), n = null, r = ls; r !== null; ) {
       var c = r.next, u = Mp(r, t);
       u === 0 ? (r.next = null, n === null ? ls = c : n.next = c, c === null && (Pi = n)) : (n = r, (e !== 0 || (u & 3) !== 0) && (cs = !0)), r = c;
     }
@@ -7966,10 +7966,10 @@ Error generating stack: ` + r.message + `
       e === t ? n : 0,
       e.cancelPendingCommit !== null || e.timeoutHandle !== -1
     ), r = e.callbackNode, n === 0 || e === t && (Ze === 2 || Ze === 9) || e.cancelPendingCommit !== null)
-      return r !== null && r !== null && Me(r), e.callbackNode = null, e.callbackPriority = 0;
+      return r !== null && r !== null && Re(r), e.callbackNode = null, e.callbackPriority = 0;
     if ((n & 3) === 0 || ao(e, n)) {
       if (t = n & -n, t === e.callbackPriority) return t;
-      switch (r !== null && Me(r), al(n)) {
+      switch (r !== null && Re(r), al(n)) {
         case 2:
         case 8:
           n = Rt;
@@ -7985,7 +7985,7 @@ Error generating stack: ` + r.message + `
       }
       return r = jp.bind(null, e), n = oe(n, r), e.callbackPriority = t, e.callbackNode = n, t;
     }
-    return r !== null && r !== null && Me(r), e.callbackPriority = 2, e.callbackNode = null, 2;
+    return r !== null && r !== null && Re(r), e.callbackPriority = 2, e.callbackNode = null, 2;
   }
   function jp(e, t) {
     if (pt !== 0 && pt !== 5)
@@ -7998,7 +7998,7 @@ Error generating stack: ` + r.message + `
       e,
       e === Ye ? r : 0,
       e.cancelPendingCommit !== null || e.timeoutHandle !== -1
-    ), r === 0 ? null : (mp(e, r, t), Mp(e, je()), e.callbackNode != null && e.callbackNode === n ? jp.bind(null, e) : null);
+    ), r === 0 ? null : (mp(e, r, t), Mp(e, Me()), e.callbackNode != null && e.callbackNode === n ? jp.bind(null, e) : null);
   }
   function Rp(e, t) {
     if (ss()) return null;
@@ -10033,7 +10033,7 @@ Error generating stack: ` + r.message + `
                       var S = 1 << 31 - It(h);
                       b.entanglements[1] |= S, h &= ~S;
                     }
-                    Ca(u), (qe & 6) === 0 && (as = je() + 500, Uo(0));
+                    Ca(u), (qe & 6) === 0 && (as = Me() + 500, Uo(0));
                   }
                 }
                 break;
@@ -25189,7 +25189,7 @@ function xA(a) {
   if (!(!d || !i || !o || !l)) {
     var _ = i.velocityX, m = i.velocityY, g = i.total, f = o.maxPositionX, v = o.minPositionX, y = o.maxPositionY, k = o.minPositionY, w = s.limitToBounds, z = s.autoAlignment, T = s.zoomAnimation, C = s.panning, j = C.lockAxisY, U = C.lockAxisX, D = T.animationType, L = z.sizeX, K = z.sizeY, W = z.velocityAlignmentTime, V = W, F = EA(a, g), Y = Math.max(F, V), ne = Rn(a, L), se = Rn(a, K), pe = ne * l.offsetWidth / 100, ae = se * l.offsetHeight / 100, J = f + pe, ee = v - pe, M = y + ae, $ = k - ae, te = a.state, ve = (/* @__PURE__ */ new Date()).getTime();
     Ph(a, D, Y, function(ye) {
-      var E = a.state, P = E.scale, X = E.positionX, Q = E.positionY, _e = (/* @__PURE__ */ new Date()).getTime() - ve, ce = _e / V, ge = Vh[z.animationType], Re = 1 - ge(Math.min(1, ce)), Ee = 1 - ye, ft = X + _ * Ee, St = Q + m * Ee, jt = wg(ft, te.positionX, X, U, w, v, f, ee, J, Re), Ht = wg(St, te.positionY, Q, j, w, k, y, $, M, Re);
+      var E = a.state, P = E.scale, X = E.positionX, Q = E.positionY, _e = (/* @__PURE__ */ new Date()).getTime() - ve, ce = _e / V, ge = Vh[z.animationType], je = 1 - ge(Math.min(1, ce)), Ee = 1 - ye, ft = X + _ * Ee, St = Q + m * Ee, jt = wg(ft, te.positionX, X, U, w, v, f, ee, J, je), Ht = wg(St, te.positionY, Q, j, w, k, y, $, M, je);
       if (X !== ft || Q !== St) {
         a.setState(P, jt, Ht);
         var et = a.props.onPanning;
@@ -26544,29 +26544,29 @@ function Ox({
       localStorage.setItem(Fi.MAP_LOCKED, String(oe));
     } catch {
     }
-  }, [$]), E = o === "room" ? ee : y, { rooms: P, transform: X } = i, Q = U?.attributes?.vacuum_position, _e = U?.attributes?.charger_position, ce = T === "cleaning", ge = z.map_overlays ?? [], Re = Y.width > 0 && Y.height > 0, Ee = ge.includes("vacuum") && Q && Re && X, ft = ge.includes("charger") && _e && Re && X, St = ge.includes("room_labels") && Re && X, jt = U?.attributes?.obstacle_picture ?? {}, Ht = U?.attributes?.obstacles ?? {}, et = Re && X ? Object.entries(Ht).filter(([, oe]) => typeof oe.x == "number" && typeof oe.y == "number" && oe.picture_status === "Uploaded").map(([oe, Me]) => {
-    const Tt = X.vacuumToMap({ x: Me.x, y: Me.y }), Qt = Object.entries(jt).find(([, je]) => {
+  }, [$]), E = o === "room" ? ee : y, { rooms: P, transform: X } = i, Q = U?.attributes?.vacuum_position, _e = U?.attributes?.charger_position, ce = T === "cleaning", ge = z.map_overlays ?? [], je = Y.width > 0 && Y.height > 0, Ee = ge.includes("vacuum") && Q && je && X, ft = ge.includes("charger") && _e && je && X, St = ge.includes("room_labels") && je && X, jt = U?.attributes?.obstacle_picture ?? {}, Ht = U?.attributes?.obstacles ?? {}, et = je && X ? Object.entries(Ht).filter(([, oe]) => typeof oe.x == "number" && typeof oe.y == "number" && oe.picture_status === "Uploaded").map(([oe, Re]) => {
+    const Tt = X.vacuumToMap({ x: Re.x, y: Re.y }), Qt = Object.entries(jt).find(([, Me]) => {
       try {
-        return new URL(je, window.location.origin).searchParams.get("index") === oe;
+        return new URL(Me, window.location.origin).searchParams.get("index") === oe;
       } catch {
-        return je.match(/[?&]index=(\\d+)(?:&|$)/)?.[1] === oe;
+        return Me.match(/[?&]index=(\\d+)(?:&|$)/)?.[1] === oe;
       }
     });
     return {
       id: oe,
-      type: Me.type ?? "Obstacle",
-      possibility: Me.possibility,
-      room: Me.room,
+      type: Re.type ?? "Obstacle",
+      possibility: Re.possibility,
+      room: Re.room,
       x: Tt.x,
       y: Tt.y,
       pictureUrl: Qt?.[1]
     };
   }) : [], Ue = x.useCallback(() => {
-    const oe = V.current, Me = W.current;
-    if (!oe || !Me || !oe.naturalWidth || !oe.naturalHeight) return;
-    const Tt = oe.clientWidth, Qt = oe.clientHeight, je = oe.naturalWidth / oe.naturalHeight, Jt = Tt / Qt;
+    const oe = V.current, Re = W.current;
+    if (!oe || !Re || !oe.naturalWidth || !oe.naturalHeight) return;
+    const Tt = oe.clientWidth, Qt = oe.clientHeight, Me = oe.naturalWidth / oe.naturalHeight, Jt = Tt / Qt;
     let Ea = Tt, Rt = Qt, At = oe.offsetLeft, xt = oe.offsetTop;
-    Jt > je ? (Ea = Qt * je, At += (Tt - Ea) / 2) : Jt < je && (Rt = Tt / je, xt += (Qt - Rt) / 2), pe({
+    Jt > Me ? (Ea = Qt * Me, At += (Tt - Ea) / 2) : Jt < Me && (Rt = Tt / Me, xt += (Qt - Rt) / 2), pe({
       left: At,
       top: xt,
       width: Ea,
@@ -26582,11 +26582,11 @@ function Ox({
   }, [L, Ue]);
   const mt = x.useCallback(
     (oe) => {
-      const Me = oe.currentTarget;
-      !L || !Me.naturalWidth || !Me.naturalHeight || (ne({ width: Me.naturalWidth, height: Me.naturalHeight }), requestAnimationFrame(Ue), v?.(Me.naturalWidth, Me.naturalHeight, L));
+      const Re = oe.currentTarget;
+      !L || !Re.naturalWidth || !Re.naturalHeight || (ne({ width: Re.naturalWidth, height: Re.naturalHeight }), requestAnimationFrame(Ue), v?.(Re.naturalWidth, Re.naturalHeight, L));
     },
     [L, v, Ue]
-  ), Ma = x.useCallback((oe, Me) => {
+  ), Ma = x.useCallback((oe, Re) => {
     const Tt = {
       title: oe.type,
       content: oe.pictureUrl ? w.hassUrl(oe.pictureUrl) : void 0,
@@ -26594,7 +26594,7 @@ function Ox({
       possibility: oe.possibility,
       room: oe.room
     };
-    Me.dispatchEvent(new CustomEvent("show-dialog", {
+    Re.dispatchEvent(new CustomEvent("show-dialog", {
       bubbles: !0,
       composed: !0,
       detail: {
@@ -26665,21 +26665,21 @@ function Ox({
                     onLoad: mt,
                     onClick: (oe) => {
                       if (!Y.width || !Y.height) return;
-                      const Me = oe.currentTarget.getBoundingClientRect(), Tt = (oe.clientX - Me.left) / Me.width * Y.width, Qt = (oe.clientY - Me.top) / Me.height * Y.height;
-                      let je, Jt = Number.POSITIVE_INFINITY;
+                      const Re = oe.currentTarget.getBoundingClientRect(), Tt = (oe.clientX - Re.left) / Re.width * Y.width, Qt = (oe.clientY - Re.top) / Re.height * Y.height;
+                      let Me, Jt = Number.POSITIVE_INFINITY;
                       for (const Rt of et) {
                         const At = Math.hypot(Rt.x - Tt, Rt.y - Qt);
-                        At < Jt && (je = Rt, Jt = At);
+                        At < Jt && (Me = Rt, Jt = At);
                       }
                       const Ea = Math.max(Y.width, Y.height) * 0.08;
-                      if (je && Jt <= Ea) {
+                      if (Me && Jt <= Ea) {
                         oe.stopPropagation();
                         const Rt = {
-                          title: je.type,
-                          content: je.pictureUrl ? w.hassUrl(je.pictureUrl) : void 0,
-                          type: je.type,
-                          possibility: je.possibility,
-                          room: je.room
+                          title: Me.type,
+                          content: Me.pictureUrl ? w.hassUrl(Me.pictureUrl) : void 0,
+                          type: Me.type,
+                          possibility: Me.possibility,
+                          room: Me.room
                         }, At = new CustomEvent("show-dialog", {
                           bubbles: !0,
                           composed: !0,
@@ -26706,11 +26706,11 @@ function Ox({
                     },
                     "aria-label": `Open ${oe.type} obstacle picture`,
                     title: `${oe.type}${oe.possibility !== void 0 ? ` ${oe.possibility}%` : ""}`,
-                    onPointerDown: (Me) => {
-                      Me.preventDefault(), Me.stopPropagation();
+                    onPointerDown: (Re) => {
+                      Re.stopPropagation();
                     },
-                    onClick: (Me) => {
-                      Me.preventDefault(), Me.stopPropagation(), Ma(oe, Me.currentTarget);
+                    onClick: (Re) => {
+                      Re.stopPropagation(), Ma(oe, Re.currentTarget);
                     }
                   },
                   oe.id
@@ -27530,7 +27530,7 @@ function aN({
   onCleaningModeSelect: L,
   showOnlyCleaningModeSelector: K = !1
 }) {
-  const W = vt(), V = On(), { controls: F, phase: Y, isCustomizedCleaning: ne } = za(), { setSelectOption: se, setSwitch: pe, setNumber: ae, setFanSpeed: J } = ed(W), ee = Ks(), { t: M } = Ve(), $ = !!ee.wetnessLevel, te = !!ee.mopPadHumidity, ve = !!ee.waterVolume && !$ && !te, ye = !!ee.selfCleanFrequency, E = !!ee.cleaningRoute, P = dt(W, ee.cleaningMode), X = Y === "cleaning" || Y === "paused", Q = _a(V.attributes.suction_level_list), _e = _a(V.attributes.fan_speed_list), ce = typeof V.attributes.fan_speed == "string" ? V.attributes.fan_speed : "", ge = Ms(g, _a(V.attributes.water_volume_list)), Re = Ms(
+  const W = vt(), V = On(), { controls: F, phase: Y, isCustomizedCleaning: ne } = za(), { setSelectOption: se, setSwitch: pe, setNumber: ae, setFanSpeed: J } = ed(W), ee = Ks(), { t: M } = Ve(), $ = !!ee.wetnessLevel, te = !!ee.mopPadHumidity, ve = !!ee.waterVolume && !$ && !te, ye = !!ee.selfCleanFrequency, E = !!ee.cleaningRoute, P = dt(W, ee.cleaningMode), X = Y === "cleaning" || Y === "paused", Q = _a(V.attributes.suction_level_list), _e = _a(V.attributes.fan_speed_list), ce = typeof V.attributes.fan_speed == "string" ? V.attributes.fan_speed : "", ge = Ms(g, _a(V.attributes.water_volume_list)), je = Ms(
     _,
     _a(V.attributes.mop_pad_humidity_list)
   ), Ee = Ms(
@@ -27617,17 +27617,17 @@ function aN({
           }
         )
       ] }),
-      te && ee.mopPadHumidity && !et && Re.options.length > 0 && /* @__PURE__ */ p.jsxs("section", { className: "cleaning-mode-modal__section", children: [
+      te && ee.mopPadHumidity && !et && je.options.length > 0 && /* @__PURE__ */ p.jsxs("section", { className: "cleaning-mode-modal__section", children: [
         /* @__PURE__ */ p.jsx("h3", { className: "cleaning-mode-modal__section-title", children: M("custom_mode.mop_pad_humidity_title") }),
         /* @__PURE__ */ p.jsx(
           Wx,
           {
             mopPadHumidity: d,
-            mopPadHumidityList: Re.options,
+            mopPadHumidityList: je.options,
             onSelect: se,
             entityId: ee.mopPadHumidity,
             t: M,
-            disabled: !Re.clicksEnabled || !F.canChangeWetness
+            disabled: !je.clicksEnabled || !F.canChangeWetness
           }
         )
       ] }),
@@ -27913,7 +27913,7 @@ function _N({ opened: a, onClose: i }) {
   const { t: o } = Ve(), s = On(), l = vt(), { phase: d, isCustomizedCleaning: _ } = za(), { setSelectOption: m } = ed(l), g = Ks(), f = !!g.cleangenius, v = d === "cleaning" || d === "paused", y = g.customizedCleaning, k = dt(l, g.cleangenius), w = (Ue) => er(Ue ? l.states[Ue] : void 0), z = w(g.cleaningMode), T = w(g.cleangeniusMode), C = w(g.cleangenius), j = w(g.suctionLevel), U = w(g.waterVolume), D = w(g.mopPadHumidity), L = w(g.cleaningRoute), K = w(g.selfCleanFrequency), W = C.value ?? Qe(s.attributes.cleangenius, ""), V = !Kg(W), F = z.value ?? Qe(s.attributes.cleaning_mode, ""), Y = T.value ?? Qe(s.attributes.cleangenius_mode, ""), ne = j.value ?? "", se = Qe(s.attributes.wetness_level, Qa.WETNESS_LEVEL), pe = U.value ?? "", ae = L.value ?? "", J = Qe(s.attributes.max_suction_power, Qa.MAX_SUCTION_POWER), ee = Qe(s.attributes.self_clean_area, Qa.SELF_CLEAN_AREA), M = K.value ?? "", $ = D.value ?? "", te = Qe(s.attributes.self_clean_area_min, Qa.SELF_CLEAN_AREA_MIN), ve = Qe(s.attributes.self_clean_area_max, Qa.SELF_CLEAN_AREA_MAX), ye = Qe(s.attributes.previous_self_clean_time, Qa.SELF_CLEAN_TIME), E = Qe(s.attributes.self_clean_time_min, Qa.SELF_CLEAN_TIME_MIN), P = Qe(s.attributes.self_clean_time_max, Qa.SELF_CLEAN_TIME_MAX), X = [
     { value: $o.CLEANGENIUS, label: o("cleaning_mode.clean_genius") },
     { value: $o.CUSTOM, label: o("cleaning_mode.custom") }
-  ], Q = [...z.options, Qo], _e = v || k.unavailable, ce = f && V, ge = x.useRef(null), Re = x.useRef(_), [Ee, ft] = x.useState(0), St = (Ue, mt) => {
+  ], Q = [...z.options, Qo], _e = v || k.unavailable, ce = f && V, ge = x.useRef(null), je = x.useRef(_), [Ee, ft] = x.useState(0), St = (Ue, mt) => {
     if (!_) {
       ge.current = null, m(Ue, mt);
       return;
@@ -27928,11 +27928,11 @@ function _N({ opened: a, onClose: i }) {
     const Ue = ge.current;
     !Ue || _ || (ge.current = null, m(Ue.entityId, Ue.option));
   }, [a, _, Ee, m]), x.useEffect(() => {
-    Re.current = _;
+    je.current = _;
   }, [_]), x.useEffect(() => {
     if (!a || Ee === 0) return;
     const Ue = window.setTimeout(() => {
-      Re.current && (ge.current = null);
+      je.current && (ge.current = null);
     }, dN);
     return () => window.clearTimeout(Ue);
   }, [a, Ee]);
@@ -28718,7 +28718,7 @@ function ON({ hass: a, config: i }) {
   ]), x.useEffect(() => {
     P || ee();
   }, [P, ee]);
-  const { toast: _e, showToast: ce, hideToast: ge } = rz(), Re = x.useCallback(
+  const { toast: _e, showToast: ce, hideToast: ge } = rz(), je = x.useCallback(
     (xt) => {
       ce(xt);
     },
@@ -28729,7 +28729,7 @@ function ON({ hass: a, config: i }) {
     mapEntityId: M,
     mapTransform: E.transform,
     onSuccess: ce,
-    onError: Re
+    onError: je
   }), et = x.useCallback(
     (xt, Ta) => {
       const ga = w.has(xt);
@@ -28769,17 +28769,17 @@ function ON({ hass: a, config: i }) {
     V
   ]), mt = x.useCallback(() => {
     a.callService("vacuum", "start", { entity_id: i.entity }), ce(_("toast.resuming"));
-  }, [a, i.entity, ce, _]), Ma = x.useCallback(() => ne(!0), [ne]), Sa = x.useCallback(() => ne(!1), [ne]), Un = x.useCallback(() => F(!0), [F]), oe = x.useCallback(() => F(!1), [F]), Me = x.useCallback(() => Y(!0), [Y]), Tt = x.useCallback(() => Y(!1), [Y]), Qt = x.useCallback((xt, Ta, ga) => {
+  }, [a, i.entity, ce, _]), Ma = x.useCallback(() => ne(!0), [ne]), Sa = x.useCallback(() => ne(!1), [ne]), Un = x.useCallback(() => F(!0), [F]), oe = x.useCallback(() => F(!1), [F]), Re = x.useCallback(() => Y(!0), [Y]), Tt = x.useCallback(() => Y(!1), [Y]), Qt = x.useCallback((xt, Ta, ga) => {
     v(ga), g({ width: xt, height: Ta });
   }, []);
   if (!o)
     return /* @__PURE__ */ p.jsx("div", { className: "dreame-vacuum-card__error", children: _("errors.entity_not_found", { entity: i.entity }) });
   if (o.state === "unavailable" || o.state === "unknown")
     return /* @__PURE__ */ p.jsx("div", { className: "dreame-vacuum-card__error dreame-vacuum-card__error--unavailable", children: _("errors.entity_unavailable") });
-  const je = m2(o, i, M);
-  if (!je)
+  const Me = m2(o, i, M);
+  if (!Me)
     return /* @__PURE__ */ p.jsx("div", { className: "dreame-vacuum-card__error", children: _("errors.failed_to_load") });
-  const { deviceName: Jt } = je, Ea = p2(o, y), Rt = (o.attributes.capabilities ?? []).includes(sw.SHORTCUTS), At = E2({
+  const { deviceName: Jt } = Me, Ea = p2(o, y), Rt = (o.attributes.capabilities ?? []).includes(sw.SHORTCUTS), At = E2({
     hasCamera: !!(M && a.states[M]),
     floorReady: te.floorReady,
     imageReady: te.imageReady,
@@ -28820,7 +28820,7 @@ function ON({ hass: a, config: i }) {
               RN,
               {
                 onClick: Un,
-                onShortcutsClick: Rt ? Me : void 0,
+                onShortcutsClick: Rt ? Re : void 0,
                 onRepeatClick: J,
                 repeatCount: D
               }
