@@ -109,9 +109,9 @@
       width: min(22rem, calc(100% - 2rem));
       padding: 0.25rem;
       border-radius: 0.75rem;
-      background: color-mix(in srgb, var(--card-bg) 68%, transparent);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: color-mix(in srgb, var(--card-bg) 38%, transparent);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
 
     &__footer {
