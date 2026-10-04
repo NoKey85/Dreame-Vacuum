@@ -103,8 +103,10 @@ export function VacuumMap({
   const mapUrl = typeof entityPicture === 'string' ? entityPicture : undefined;
   const mapRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const resetTransformRef = useRef<(() => void) | null>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+  const [renderedImage, setRenderedImage] = useState({ left: 0, top: 0, width: 0, height: 0 });
   const [loadedMapUrl, setLoadedMapUrl] = useState(mapUrl);
   if (mapUrl !== loadedMapUrl) {
     setLoadedMapUrl(mapUrl);
@@ -198,14 +200,61 @@ export function VacuumMap({
         })
     : [];
 
+  const updateRenderedImage = useCallback(() => {
+    const img = imageRef.current;
+    const content = contentRef.current;
+    if (!img || !content || !img.naturalWidth || !img.naturalHeight) return;
+
+    // The camera image can be height-capped and object-fit:contain.  Calibration
+    // coordinates describe pixels in the bitmap, so compute the actual bitmap box
+    // inside the rendered <img> instead of assuming the whole content wrapper is it.
+    const elementWidth = img.clientWidth;
+    const elementHeight = img.clientHeight;
+    const naturalAspect = img.naturalWidth / img.naturalHeight;
+    const elementAspect = elementWidth / elementHeight;
+
+    let bitmapWidth = elementWidth;
+    let bitmapHeight = elementHeight;
+    let bitmapLeft = img.offsetLeft;
+    let bitmapTop = img.offsetTop;
+
+    if (elementAspect > naturalAspect) {
+      bitmapWidth = elementHeight * naturalAspect;
+      bitmapLeft += (elementWidth - bitmapWidth) / 2;
+    } else if (elementAspect < naturalAspect) {
+      bitmapHeight = elementWidth / naturalAspect;
+      bitmapTop += (elementHeight - bitmapHeight) / 2;
+    }
+
+    setRenderedImage({
+      left: bitmapLeft,
+      top: bitmapTop,
+      width: bitmapWidth,
+      height: bitmapHeight,
+    });
+  }, []);
+
+  useEffect(() => {
+    updateRenderedImage();
+    const observer = new ResizeObserver(updateRenderedImage);
+    if (imageRef.current) observer.observe(imageRef.current);
+    if (contentRef.current) observer.observe(contentRef.current);
+    window.addEventListener('resize', updateRenderedImage);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateRenderedImage);
+    };
+  }, [mapUrl, updateRenderedImage]);
+
   const handleImageLoad = useCallback(
     (e: React.SyntheticEvent<HTMLImageElement>) => {
       const img = e.currentTarget;
       if (!mapUrl || !img.naturalWidth || !img.naturalHeight) return;
       setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+      requestAnimationFrame(updateRenderedImage);
       onImageDimensionsChange?.(img.naturalWidth, img.naturalHeight, mapUrl);
     },
-    [mapUrl, onImageDimensionsChange]
+    [mapUrl, onImageDimensionsChange, updateRenderedImage]
   );
 
   const openObstacleDialog = useCallback((obstacle: (typeof interactiveObstacles)[number], source: HTMLElement) => {
@@ -282,6 +331,7 @@ export function VacuumMap({
           >
             <div className="vacuum-map__content" ref={contentRef}>
               <img
+                ref={imageRef}
                 src={hass.hassUrl(mapUrl)}
                 alt="Vacuum Map"
                 className="vacuum-map__image"
@@ -335,8 +385,8 @@ export function VacuumMap({
                   type="button"
                   className="vacuum-map__obstacle-hit-target"
                   style={{
-                    left: `${(obstacle.x / imageDimensions.width) * 100}%`,
-                    top: `${(obstacle.y / imageDimensions.height) * 100}%`,
+                    left: `${renderedImage.left + (obstacle.x / imageDimensions.width) * renderedImage.width}px`,
+                    top: `${renderedImage.top + (obstacle.y / imageDimensions.height) * renderedImage.height}px`,
                   }}
                   aria-label={`Open ${obstacle.type} obstacle picture`}
                   title={`${obstacle.type}${obstacle.possibility !== undefined ? ` ${obstacle.possibility}%` : ''}`}
