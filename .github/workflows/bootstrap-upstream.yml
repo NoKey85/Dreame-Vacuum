@@ -21,7 +21,7 @@ jobs:
           tmp="$(mktemp -d)"
           curl -L https://github.com/noambergauz/dreame-vacuum-map-card/archive/refs/heads/master.tar.gz -o "$tmp/upstream.tar.gz"
           tar -xzf "$tmp/upstream.tar.gz" -C "$tmp"
-          rsync -a --delete --exclude='.git' --exclude='.github/workflows/bootstrap-upstream.yml' "$tmp/dreame-vacuum-map-card-master/" ./
+          rsync -a --delete --exclude='.git' --exclude='.github/' "$tmp/dreame-vacuum-map-card-master/" ./
           cp "$0" /dev/null 2>/dev/null || true
       - name: Preserve bootstrap workflow
         run: |
