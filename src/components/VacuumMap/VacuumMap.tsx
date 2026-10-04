@@ -113,7 +113,6 @@ export function VacuumMap({
   }
   const [roomViewMode, setRoomViewMode] = useState<RoomViewMode>(defaultRoomView);
   const [selectedObstacle, setSelectedObstacle] = useState<{ id: string; type: string; possibility?: number; room?: string; pictureUrl?: string } | null>(null);
-  const [obstacleDebug, setObstacleDebug] = useState<string | null>(null);
 
   // Map lock state - persisted to localStorage, default: locked
   const [isMapLocked, setIsMapLocked] = useState(() => {
@@ -252,40 +251,32 @@ export function VacuumMap({
               justifyContent: 'center',
             }}
           >
-            <div
-              className="vacuum-map__content"
-              ref={contentRef}
-              onClickCapture={(event) => {
-                const image = contentRef.current?.querySelector<HTMLImageElement>('.vacuum-map__image');
-                if (!image || !imageDimensions.width || !imageDimensions.height) {
-                  setObstacleDebug('click captured | image geometry unavailable');
-                  return;
-                }
-                const rect = image.getBoundingClientRect();
-                const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
-                const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
-                let nearest: (typeof interactiveObstacles)[number] | undefined;
-                let nearestDistance = Number.POSITIVE_INFINITY;
-                for (const obstacle of interactiveObstacles) {
-                  const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
-                  if (distance < nearestDistance) {
-                    nearest = obstacle;
-                    nearestDistance = distance;
-                  }
-                }
-                const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.1;
-                setObstacleDebug(`captured ${Math.round(clickX)},${Math.round(clickY)} | nearest ${nearest?.id ?? 'none'} ${nearest?.type ?? ''} @ ${nearest ? Math.round(nearest.x) : '-'},${nearest ? Math.round(nearest.y) : '-'} | d=${Number.isFinite(nearestDistance) ? Math.round(nearestDistance) : '-'} r=${Math.round(hitRadius)} | obstacles=${interactiveObstacles.length}`);
-                if (nearest && nearestDistance <= hitRadius) {
-                  event.stopPropagation();
-                  setSelectedObstacle(nearest);
-                }
-              }}
-            >
+            <div className="vacuum-map__content" ref={contentRef}>
               <img
                 src={hass.hassUrl(mapUrl)}
                 alt="Vacuum Map"
                 className="vacuum-map__image"
                 onLoad={handleImageLoad}
+                onClick={(event) => {
+                  if (!imageDimensions.width || !imageDimensions.height) return;
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
+                  const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
+                  let nearest: (typeof interactiveObstacles)[number] | undefined;
+                  let nearestDistance = Number.POSITIVE_INFINITY;
+                  for (const obstacle of interactiveObstacles) {
+                    const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
+                    if (distance < nearestDistance) {
+                      nearest = obstacle;
+                      nearestDistance = distance;
+                    }
+                  }
+                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.08;
+                  if (nearest && nearestDistance <= hitRadius) {
+                    event.stopPropagation();
+                    setSelectedObstacle(nearest);
+                  }
+                }}
                 draggable={false}
               />
 
@@ -365,11 +356,6 @@ export function VacuumMap({
         </div>
       )}
 
-      {obstacleDebug && (
-        <div className="vacuum-map__obstacle-debug" onClick={() => setObstacleDebug(null)}>
-          {obstacleDebug}
-        </div>
-      )}
 
       {selectedObstacle && (
         <div className="vacuum-map__obstacle-modal-backdrop" onClick={() => setSelectedObstacle(null)}>
