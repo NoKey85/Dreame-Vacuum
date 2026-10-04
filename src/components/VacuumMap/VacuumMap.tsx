@@ -391,11 +391,11 @@ export function VacuumMap({
                   aria-label={`Open ${obstacle.type} obstacle picture`}
                   title={`${obstacle.type}${obstacle.possibility !== undefined ? ` ${obstacle.possibility}%` : ''}`}
                   onPointerDown={(event) => {
-                    event.preventDefault();
+                    // Keep the pan/zoom surface from claiming a gesture that starts
+                    // on an obstacle, but do not prevent the button's native click.
                     event.stopPropagation();
                   }}
                   onClick={(event) => {
-                    event.preventDefault();
                     event.stopPropagation();
                     openObstacleDialog(obstacle, event.currentTarget);
                   }}
