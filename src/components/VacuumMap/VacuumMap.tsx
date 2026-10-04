@@ -103,6 +103,8 @@ export function VacuumMap({
   const mapUrl = typeof entityPicture === 'string' ? entityPicture : undefined;
   const mapRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const pointerStartRef = useRef<{ x: number; y: number; pointerId: number } | null>(null);
   const resetTransformRef = useRef<(() => void) | null>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const [loadedMapUrl, setLoadedMapUrl] = useState(mapUrl);
@@ -207,6 +209,87 @@ export function VacuumMap({
     },
     [mapUrl, onImageDimensionsChange]
   );
+
+  const openObstacleDialog = useCallback((clientX: number, clientY: number) => {
+    const img = imageRef.current;
+    if (!img || !imageDimensions.width || !imageDimensions.height || interactiveObstacles.length === 0) return false;
+
+    const rect = img.getBoundingClientRect();
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) return false;
+
+    const clickX = ((clientX - rect.left) / rect.width) * imageDimensions.width;
+    const clickY = ((clientY - rect.top) / rect.height) * imageDimensions.height;
+    let nearest: (typeof interactiveObstacles)[number] | undefined;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    for (const obstacle of interactiveObstacles) {
+      const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
+      if (distance < nearestDistance) {
+        nearest = obstacle;
+        nearestDistance = distance;
+      }
+    }
+
+    const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.08;
+    if (!nearest || nearestDistance > hitRadius) return false;
+
+    const detail = {
+      title: nearest.type,
+      content: nearest.pictureUrl ? hass.hassUrl(nearest.pictureUrl) : undefined,
+      type: nearest.type,
+      possibility: nearest.possibility,
+      room: nearest.room,
+    };
+
+    img.dispatchEvent(new CustomEvent('show-dialog', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        dialogTag: 'dreame-obstacle-picture-dialog',
+        dialogImport: () => import('../ObstaclePictureDialog/ObstaclePictureDialog'),
+        dialogParams: detail,
+      },
+    }));
+    return true;
+  }, [hass, imageDimensions, interactiveObstacles]);
+
+  useEffect(() => {
+    const target = mapRef.current;
+    if (!target) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.button !== 0) return;
+      pointerStartRef.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+    };
+
+    const onPointerUp = (event: PointerEvent) => {
+      const start = pointerStartRef.current;
+      pointerStartRef.current = null;
+      if (!start || start.pointerId !== event.pointerId) return;
+
+      // A click/tap may jitter a few pixels. A real drag remains map navigation.
+      if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) return;
+
+      if (openObstacleDialog(event.clientX, event.clientY)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    const onPointerCancel = () => {
+      pointerStartRef.current = null;
+    };
+
+    // Native capture listeners run before react-zoom-pan-pinch's bubble handlers.
+    target.addEventListener('pointerdown', onPointerDown, true);
+    target.addEventListener('pointerup', onPointerUp, true);
+    target.addEventListener('pointercancel', onPointerCancel, true);
+    return () => {
+      target.removeEventListener('pointerdown', onPointerDown, true);
+      target.removeEventListener('pointerup', onPointerUp, true);
+      target.removeEventListener('pointercancel', onPointerCancel, true);
+    };
+  }, [openObstacleDialog]);
 
   // Determine if panning should be enabled (disabled when locked or in zone mode for zone creation)
   const isPanningEnabled = !isMapLocked && selectedMode !== 'zone';
