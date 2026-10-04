@@ -1,0 +1,56 @@
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.9375rem;
+
+  &__clean,
+  &__dock,
+  &__pause,
+  &__resume,
+  &__stop {
+    flex: 1;
+    background: var(--accent-bg); // Darker obsidian base
+    border: 0.0625rem solid var(--accent-bg); // Your base color as the "frame"
+    border-radius: 0.875rem;
+    padding: 0.575rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-primary);
+
+    &--selected {
+      transform: translateY(-0.125rem);
+      border: 0.0625rem solid var(--toggle-active-border); // Your base color as the "frame"
+      box-shadow:
+        0 0.625rem 1.25rem var(--card-shadow-hover),
+        0 0 0.75rem var(--accent-color-shadow-color) !important;
+    }
+  }
+
+  &__clean {
+    color: var(--text-primary-invert);
+    background: var(--accent-color);
+  }
+  &__pause {
+    color: var(--accent-color);
+    border-color: var(--accent-color-hover);
+  }
+  &__resume {
+    color: var(--success-color, #43a047);
+    border-color: color-mix(in srgb, var(--success-color, #43a047) 50%, transparent);
+  }
+  &__stop {
+    color: var(--error-color, #db4437);
+    border-color: color-mix(in srgb, var(--error-color, #db4437) 50%, transparent);
+  }
+
+  &__dock {
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+  }
+}

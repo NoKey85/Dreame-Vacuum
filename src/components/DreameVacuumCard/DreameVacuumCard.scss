@@ -1,0 +1,127 @@
+.dreame-vacuum-card {
+  // Card tokens resolved from the active Home Assistant theme
+  --card-bg: var(--ha-card-background, var(--card-background-color, #fff));
+  --surface-bg: var(--card-background-color, #fff);
+  --surface-secondary: var(--secondary-background-color, #f0f0f0);
+  --surface-tertiary: var(--secondary-background-color, #e8e8e8);
+  --surface-bg-hover: color-mix(in srgb, var(--primary-text-color, #000) 8%, transparent);
+  --text-primary: var(--primary-text-color, #1a1a1a);
+  --text-primary-invert: var(--text-primary-color, #fff);
+  --text-secondary: var(--secondary-text-color, #666);
+  --text-tertiary: var(--disabled-text-color, #999);
+  --accent-color: var(--primary-color, #03a9f4);
+  --accent-color-hover: color-mix(in srgb, var(--accent-color) 85%, var(--primary-text-color, #000));
+  --accent-bg: color-mix(in srgb, var(--accent-color) 20%, transparent);
+  --accent-bg-hover: color-mix(in srgb, var(--accent-color) 30%, transparent);
+  --accent-bg-secondary: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  --accent-bg-secondary-hover: color-mix(in srgb, var(--accent-color) 20%, transparent);
+  --accent-bg-transparent: color-mix(in srgb, var(--accent-color) 20%, transparent);
+  --accent-shadow: color-mix(in srgb, var(--accent-color) 40%, transparent);
+  --accent-color-shadow-color: color-mix(in srgb, var(--accent-color) 25%, transparent);
+  --warning-shadow: color-mix(in srgb, var(--warning-color, #ffa600) 40%, transparent);
+  --error-color-hover: color-mix(in srgb, var(--error-color, #db4437) 85%, var(--primary-text-color, #000));
+  --error-shadow: color-mix(in srgb, var(--error-color, #db4437) 40%, transparent);
+  --border-color: var(--divider-color, #e0e0e0);
+  --overlay-bg: color-mix(in srgb, var(--primary-text-color, #000) 5%, transparent);
+  --card-shadow: rgba(0, 0, 0, 0.12);
+  --card-shadow-hover: rgba(0, 0, 0, 0.18);
+  --handle-shadow: rgba(0, 0, 0, 0.2);
+  --handle-bg: color-mix(in srgb, var(--primary-text-color, #000) 15%, transparent);
+  --backdrop-bg: rgba(0, 0, 0, 0.5);
+  --toggle-active: color-mix(in srgb, var(--accent-color) 25%, transparent);
+  --toggle-active-border: var(--accent-color);
+  --toggle-active-shadow-color: var(--accent-color-shadow-color);
+
+  position: relative;
+  container-name: dreame-card;
+  container-type: inline-size;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border: var(--ha-card-border-width, 1px) solid var(--ha-card-border-color, var(--border-color));
+  border-radius: var(--ha-card-border-radius, 0.75rem);
+  overflow: hidden;
+  box-shadow: var(--ha-card-box-shadow, none);
+  font-family: inherit;
+
+  &__error {
+    padding: 1.25rem;
+    color: var(--error-color, #db4437);
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  &__diagnostic {
+    margin: 0 1.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__header,
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  &__map {
+    min-width: 0;
+  }
+
+  &__controls {
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  @container dreame-card (min-width: 48rem) {
+    &__container {
+      --wide-max-height: calc(100dvh - var(--header-height, 56px) - 1rem);
+
+      display: grid;
+      grid-template-columns: minmax(18rem, 28rem) minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-areas:
+        'header map'
+        'footer map';
+      align-items: stretch;
+      max-height: var(--wide-max-height);
+    }
+
+    &__header {
+      grid-area: header;
+      align-self: start;
+    }
+
+    &__footer {
+      grid-area: footer;
+      justify-content: safe flex-end;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    &__map {
+      display: flex;
+      grid-area: map;
+      padding-block: 1.25rem;
+      padding-inline-end: 1.25rem;
+
+      .vacuum-map {
+        flex: 1;
+        margin: 0;
+      }
+
+      .vacuum-map__image {
+        max-height: min(var(--map-max-height, 100dvh), calc(var(--wide-max-height) - 2.5rem));
+      }
+    }
+  }
+}

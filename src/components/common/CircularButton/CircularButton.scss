@@ -1,0 +1,96 @@
+@use '../../../styles/rtl' as *;
+
+.circular-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover:not(&--disabled) {
+    transform: translateY(-0.125rem);
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__circle {
+    border-radius: 50%;
+    background: var(--surface-secondary, #f5f5f5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 0.0625rem solid var(--text-primary, black);
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+
+    // For icons with 3 elements (e.g., vacuum + arrow + mop), rotate the middle icon in RTL
+    [dir='rtl'] & > :nth-child(2):not(:last-child) {
+      rotate: 180deg;
+    }
+
+    &--small {
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 1.5rem;
+    }
+
+    &--medium {
+      width: 4.5rem;
+      height: 4.5rem;
+      font-size: 1.75rem;
+    }
+
+    &--large {
+      width: 5.5rem;
+      height: 5.5rem;
+      font-size: 2rem;
+    }
+
+    &--selected {
+      background: var(--toggle-active);
+      border: 0.1875rem solid var(--toggle-active-border);
+      box-shadow: 0 0 0 0.25rem var(--toggle-active-shadow-color);
+      color: var(--text-primary);
+    }
+
+    &:hover:not(&--selected) {
+      background: var(--surface-tertiary, #ebebeb);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--svg {
+      width: 100%;
+      height: 100%;
+      color: var(--text-primary, #1a1a1a);
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+  }
+
+  &__circle--selected &__icon--svg {
+    color: var(--text-primary-invert);
+  }
+
+  &__label {
+    font-size: 0.8125rem;
+    color: var(--text-primary, #1a1a1a);
+    text-align: center;
+    line-height: 1.2;
+  }
+}

@@ -1,0 +1,39 @@
+@use '../../styles/rtl' as *;
+
+.settings-panel {
+  height: 100%;
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    text-align: center;
+    color: var(--text-primary, #000);
+  }
+
+  &__scroll-wrapper {
+    height: 90%;
+    overflow-y: auto;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    @include padding-end(0.25rem);
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb, rgba(0, 0, 0, 0.2));
+      border-radius: 2px;
+    }
+  }
+}

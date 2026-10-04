@@ -1,0 +1,59 @@
+@use '../../../styles/rtl' as *;
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 3.1875rem;
+  height: 1.9375rem;
+
+  &__input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--surface-tertiary, #e0e0e0);
+    transition: 0.4s;
+    border-radius: 1.9375rem;
+  }
+
+  &__knob {
+    position: absolute;
+    height: 1.6875rem;
+    width: 1.6875rem;
+
+    @include position-start(0.125rem);
+
+    bottom: 0.125rem;
+    background-color: var(--surface-bg, white);
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 0.125rem 0.25rem var(--card-shadow, rgba(0, 0, 0, 0.2));
+  }
+
+  &__input:checked + &__slider {
+    background-color: var(--toggle-active);
+    border: 0.125rem solid var(--toggle-active-border);
+    box-shadow: 0 0 0 0.25rem var(--toggle-active-shadow-color);
+  }
+
+  &__input:checked + &__slider &__knob {
+    transform: translateX(1.25rem);
+
+    [dir='rtl'] & {
+      transform: translateX(-1.25rem);
+    }
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,29 @@
+.device-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--divider-color, rgba(0, 0, 0, 0.06));
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #666);
+  }
+
+  &__value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary, #000);
+    unicode-bidi: plaintext;
+  }
+}

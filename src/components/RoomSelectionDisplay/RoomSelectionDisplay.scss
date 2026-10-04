@@ -1,0 +1,22 @@
+@use '../../styles/rtl' as *;
+
+.room-selection-display {
+  padding: 0.75rem 1rem;
+  background: var(--accent-bg, #e3f2fd);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.room-selection-display__label {
+  font-weight: 600;
+
+  @include margin-end(0.5rem);
+
+  color: var(--accent-color, #007aff);
+}
+
+.room-selection-display__rooms {
+  color: var(--text-secondary, #666666);
+}

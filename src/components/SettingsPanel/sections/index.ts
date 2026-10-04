@@ -1,0 +1,10 @@
+export { AIDetectionSection } from './AIDetectionSection';
+export { CarpetSettingsSection } from './CarpetSettingsSection';
+export { ConsumablesSection } from './ConsumablesSection';
+export { DeviceInfoSection } from './DeviceInfoSection';
+export { DockSettingsSection } from './DockSettingsSection';
+export { EdgeCornerSection } from './EdgeCornerSection';
+export { FloorSettingsSection } from './FloorSettingsSection';
+export { MapSettingsSection } from './MapSettingsSection';
+export { QuickSettingsSection } from './QuickSettingsSection';
+export { VolumeSection } from './VolumeSection';

@@ -1,0 +1,147 @@
+export interface HassEntity {
+  entity_id: string;
+  state: string;
+  attributes: {
+    friendly_name?: string;
+    battery_level?: number;
+    cleaned_area?: number;
+    cleaning_time?: number;
+    entity_picture?: string;
+    // Note: rooms structure varies between vacuum entity (Record<string, Room[]>)
+    // and camera entity (Record<string, Room>)
+    rooms?: Record<string, Room[] | Room>;
+    selected_map?: string;
+    capabilities?: string[];
+    [key: string]: unknown;
+  };
+  context: {
+    id: string;
+    parent_id?: string | null;
+    user_id?: string | null;
+  };
+  last_changed: string;
+  last_updated: string;
+}
+
+export interface Room {
+  id: number;
+  name: string;
+  icon?: string;
+  visibility?: string;
+  rings?: Array<Array<{ x: number; y: number }>>;
+  x0?: number;
+  y0?: number;
+  x1?: number;
+  y1?: number;
+  room_id?: number;
+  order?: number;
+  cleaning_times?: number;
+  suction_level?: number;
+  water_volume?: number;
+  wetness_level?: number;
+  cleaning_mode?: number;
+  cleaning_route?: number;
+  type?: number;
+  index?: number;
+  color_index?: number;
+  floor_material?: string;
+  x?: number;
+  y?: number;
+}
+
+export type MapOverlay = 'vacuum' | 'charger' | 'room_labels';
+
+export interface HassConfig {
+  entity: string;
+  map_entity?: string;
+  title?: string;
+  type: string;
+  language?: string;
+  default_mode?: CleaningSelectionMode;
+  default_room_view?: RoomViewMode;
+  buttons?: ButtonConfig[];
+  map_overlays?: MapOverlay[];
+  /** Display-name overrides for rooms, keyed by segment id or by the device-provided name. */
+  room_names?: Record<string, string>;
+  /** Scale factor for the room labels drawn on the map (1 = unchanged). */
+  room_label_scale?: number;
+  /** Maximum height of the map area as a CSS length, e.g. '520px' or '60vh'. */
+  map_height?: string;
+}
+
+export interface HassUnitSystem {
+  area?: string;
+  length?: string;
+  temperature?: string;
+  mass?: string;
+  volume?: string;
+  pressure?: string;
+  wind_speed?: string;
+  accumulated_precipitation?: string;
+}
+
+export interface HassConnection {
+  subscribeEvents: (callback: () => void, eventType: string) => Promise<() => void>;
+}
+
+export interface Hass {
+  states: Record<string, HassEntity>;
+  language?: string;
+  callService: (domain: string, service: string, data?: Record<string, unknown>) => Promise<void>;
+  callWS: <T>(message: Record<string, unknown>) => Promise<T>;
+  connection?: HassConnection;
+  hassUrl: (path: string) => string;
+  config?: {
+    unit_system?: HassUnitSystem;
+  };
+}
+
+export type CleaningSelectionMode = 'room' | 'all' | 'zone';
+export type AreaSelectionMode = 'zone' | 'spot';
+export type CleaningStrategy = 'CleanGenius' | 'Custom';
+export type RoomViewMode = 'map' | 'list';
+
+// Button configuration types
+export type StopAction = 'stop' | 'stop_and_dock';
+
+export interface ButtonConfig {
+  type: 'stop'; // Extensible for future button types
+  action: StopAction;
+}
+
+export interface RoomPosition {
+  id: number;
+  name: string;
+  x: number;
+  y: number;
+  icon?: string;
+  visibility?: string;
+}
+
+export interface Zone {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+export interface Spot {
+  x: number;
+  y: number;
+}
+
+export interface CalibrationPoint {
+  vacuum: { x: number; y: number };
+  map: { x: number; y: number };
+}
+
+/**
+ * Position of the vacuum or charger on the map
+ * x, y: vacuum coordinates (need conversion via calibration points)
+ * a: angle in degrees (0 = east, 90 = south, 180 = west, 270 = north)
+ */
+export interface VacuumPosition {
+  x: number;
+  y: number;
+  a: number;
+}
