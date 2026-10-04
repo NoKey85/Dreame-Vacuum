@@ -336,44 +336,6 @@ export function VacuumMap({
                 alt="Vacuum Map"
                 className="vacuum-map__image"
                 onLoad={handleImageLoad}
-                onClick={(event) => {
-                  if (!imageDimensions.width || !imageDimensions.height) return;
-                  const rect = event.currentTarget.getBoundingClientRect();
-                  const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
-                  const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
-                  let nearest: (typeof interactiveObstacles)[number] | undefined;
-                  let nearestDistance = Number.POSITIVE_INFINITY;
-                  for (const obstacle of interactiveObstacles) {
-                    const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
-                    if (distance < nearestDistance) {
-                      nearest = obstacle;
-                      nearestDistance = distance;
-                    }
-                  }
-                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.08;
-                  if (nearest && nearestDistance <= hitRadius) {
-                    event.stopPropagation();
-                    const detail = {
-                      title: nearest.type,
-                      content: nearest.pictureUrl
-                        ? hass.hassUrl(nearest.pictureUrl)
-                        : undefined,
-                      type: nearest.type,
-                      possibility: nearest.possibility,
-                      room: nearest.room,
-                    };
-                    const dialogEvent = new CustomEvent('show-dialog', {
-                      bubbles: true,
-                      composed: true,
-                      detail: {
-                        dialogTag: 'dreame-obstacle-picture-dialog',
-                        dialogImport: () => import('../ObstaclePictureDialog/ObstaclePictureDialog'),
-                        dialogParams: detail,
-                      },
-                    });
-                    event.currentTarget.dispatchEvent(dialogEvent);
-                  }
-                }}
                 draggable={false}
               />
 
