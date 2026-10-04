@@ -72,7 +72,6 @@ class DreameObstaclePictureDialog extends HTMLElement {
     };
     dialog.open = true;
     dialog.width = 'medium';
-    dialog.headerTitle = this._params.type ?? this._params.title ?? 'Detected obstacle';
     dialog.hideCloseButton = true;
     dialog.withoutHeader = true;
     dialog.addEventListener('closed', this.finishClose, { once: true });
@@ -80,15 +79,6 @@ class DreameObstaclePictureDialog extends HTMLElement {
 
     const body = document.createElement('div');
     body.className = 'dreame-obstacle-dialog';
-
-    const meta = document.createElement('div');
-    meta.className = 'dreame-obstacle-dialog__meta';
-    const details = [
-      this._params.possibility !== undefined ? `${this._params.possibility}% confidence` : undefined,
-      this._params.room,
-    ].filter(Boolean);
-    meta.textContent = details.join(' · ');
-    if (details.length) body.appendChild(meta);
 
     const picture = document.createElement('div');
     picture.className = 'dreame-obstacle-dialog__body';
