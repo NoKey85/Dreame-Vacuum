@@ -170,6 +170,16 @@
         border-radius: 0.75rem;
         background: var(--surface-bg);
         box-shadow: 0 0.125rem 0.5rem var(--card-shadow);
+
+        &--complete {
+          color: var(--success-color, #43a047);
+          font-weight: 600;
+        }
+
+        &--charging {
+          color: var(--error-color, #db4437);
+          font-weight: 600;
+        }
       }
 
       .header__stat {
@@ -184,7 +194,8 @@
       .header__settings-btn {
         width: 2.75rem;
         height: 2.75rem;
-        background: var(--surface-bg);
+        background: var(--accent-color);
+        color: var(--text-primary-invert);
         box-shadow: 0 0.125rem 0.5rem var(--card-shadow);
       }
 
