@@ -1,5 +1,4 @@
 import { Header } from '@/components/Header';
-import { MapSelector } from '@/components/MapSelector';
 import { CleaningModeButton } from '@/components/CleaningModeButton';
 import { VacuumMap } from '@/components/VacuumMap';
 import { ModeTabs } from '@/components/ModeTabs';
