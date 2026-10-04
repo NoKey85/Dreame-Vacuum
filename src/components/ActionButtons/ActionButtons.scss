@@ -33,8 +33,9 @@
   }
 
   &__clean {
-    color: var(--text-primary-invert);
-    background: var(--accent-color);
+    color: var(--accent-color);
+    background: transparent;
+    border-color: transparent;
   }
   &__pause {
     color: var(--accent-color);
