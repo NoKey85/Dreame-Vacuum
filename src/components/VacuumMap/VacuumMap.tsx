@@ -252,7 +252,35 @@ export function VacuumMap({
               justifyContent: 'center',
             }}
           >
-            <div className="vacuum-map__content" ref={contentRef}>
+            <div
+              className="vacuum-map__content"
+              ref={contentRef}
+              onClickCapture={(event) => {
+                const image = contentRef.current?.querySelector<HTMLImageElement>('.vacuum-map__image');
+                if (!image || !imageDimensions.width || !imageDimensions.height) {
+                  setObstacleDebug('click captured | image geometry unavailable');
+                  return;
+                }
+                const rect = image.getBoundingClientRect();
+                const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
+                const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
+                let nearest: (typeof interactiveObstacles)[number] | undefined;
+                let nearestDistance = Number.POSITIVE_INFINITY;
+                for (const obstacle of interactiveObstacles) {
+                  const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
+                  if (distance < nearestDistance) {
+                    nearest = obstacle;
+                    nearestDistance = distance;
+                  }
+                }
+                const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.1;
+                setObstacleDebug(`captured ${Math.round(clickX)},${Math.round(clickY)} | nearest ${nearest?.id ?? 'none'} ${nearest?.type ?? ''} @ ${nearest ? Math.round(nearest.x) : '-'},${nearest ? Math.round(nearest.y) : '-'} | d=${Number.isFinite(nearestDistance) ? Math.round(nearestDistance) : '-'} r=${Math.round(hitRadius)} | obstacles=${interactiveObstacles.length}`);
+                if (nearest && nearestDistance <= hitRadius) {
+                  event.stopPropagation();
+                  setSelectedObstacle(nearest);
+                }
+              }}
+            >
               <img
                 src={hass.hassUrl(mapUrl)}
                 alt="Vacuum Map"
@@ -261,32 +289,7 @@ export function VacuumMap({
                 draggable={false}
               />
 
-              <div
-                className="vacuum-map__obstacle-click-layer"
-                onClick={(event) => {
-                  const image = contentRef.current?.querySelector<HTMLImageElement>('.vacuum-map__image');
-                  if (!image || !imageDimensions.width || !imageDimensions.height) return;
-                  const rect = image.getBoundingClientRect();
-                  if (!rect.width || !rect.height) return;
-                  const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
-                  const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
-                  let nearest: (typeof interactiveObstacles)[number] | undefined;
-                  let nearestDistance = Number.POSITIVE_INFINITY;
-                  for (const obstacle of interactiveObstacles) {
-                    const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
-                    if (distance < nearestDistance) {
-                      nearest = obstacle;
-                      nearestDistance = distance;
-                    }
-                  }
-                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.1;
-                  setObstacleDebug(`click ${Math.round(clickX)},${Math.round(clickY)} | nearest ${nearest?.id ?? 'none'} ${nearest?.type ?? ''} @ ${nearest ? Math.round(nearest.x) : '-'},${nearest ? Math.round(nearest.y) : '-'} | d=${Number.isFinite(nearestDistance) ? Math.round(nearestDistance) : '-'} r=${Math.round(hitRadius)} | obstacles=${interactiveObstacles.length}`);
-                  if (nearest && nearestDistance <= hitRadius) {
-                    event.stopPropagation();
-                    setSelectedObstacle(nearest);
-                  }
-                }}
-              />
+
 
               {showChargerMarker && (
                 <ChargerMarker
