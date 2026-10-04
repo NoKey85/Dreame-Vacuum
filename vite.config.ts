@@ -42,8 +42,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/main.tsx',
-      name: 'DreameVacuumMapCard',
-      fileName: 'dreame-vacuum-map-card',
+      name: 'DreameVacuumOverlayCard',
+      fileName: 'dreame-vacuum-overlay-card',
       formats: ['es'],
     },
     rollupOptions: {
