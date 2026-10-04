@@ -99,29 +99,69 @@
     &__header,
     &__footer {
       position: absolute;
-      inset-inline-start: 1rem;
       z-index: 10;
-      width: min(22rem, calc(100% - 2rem));
       box-sizing: border-box;
-      background: color-mix(in srgb, var(--card-bg) 82%, transparent);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
-      box-shadow: 0 0.5rem 1.5rem var(--card-shadow);
     }
 
     &__header {
-      top: 1rem;
-      border-radius: 0.75rem 0.75rem 0 0;
-      padding-top: 0.25rem;
+      inset-block-start: 1rem;
+      inset-inline-start: 1rem;
+      width: min(22rem, calc(100% - 2rem));
+      padding: 0.25rem;
+      border-radius: 0.75rem;
+      background: color-mix(in srgb, var(--card-bg) 68%, transparent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     &__footer {
-      top: 12.5rem;
-      max-height: calc(100% - 13.5rem);
-      overflow-y: auto;
-      border-radius: 0 0 0.75rem 0.75rem;
-      padding-top: 0.75rem;
+      inset-inline: 1rem;
+      inset-block-end: 1rem;
+      width: auto;
+      max-height: none;
+      overflow: visible;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 0.75rem;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+
+      .cleaning-mode-button-wrapper {
+        width: min(22rem, 34%);
+        margin: 0;
+        flex: 0 1 22rem;
+      }
+
+      .dreame-vacuum-card__controls {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: flex-end;
+        gap: 0.75rem;
+        padding: 0;
+        min-width: 0;
+      }
+
+      .mode-tabs {
+        flex: 1 1 22rem;
+        margin: 0;
+        box-shadow: 0 0.25rem 0.75rem var(--card-shadow);
+      }
+
+      .action-buttons {
+        flex: 1 1 18rem;
+        margin: 0;
+      }
+
+      .room-selection-display {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-end: calc(100% + 0.5rem);
+      }
     }
 
     &__map {
