@@ -51,8 +51,8 @@
   // These sit above the map image so obstacle clicks never reach the pan/zoom surface.
   &__obstacle-hit-target {
     position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
     padding: 0;
     margin: 0;
     border: 0;
@@ -62,7 +62,7 @@
     box-shadow: none;
     appearance: none;
     -webkit-appearance: none;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, calc(-50% - 5px));
     z-index: 30;
     pointer-events: auto;
     touch-action: none;
