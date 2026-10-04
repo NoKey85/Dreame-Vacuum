@@ -1,5 +1,5 @@
 {
-    "name": "Dreame Vacuum Map Card",
-    "render_readme": true,
-    "filename": "dreame-vacuum-map-card.js"
+  "name": "Dreame Vacuum Overlay Card",
+  "render_readme": true,
+  "filename": "dreame-vacuum-overlay-card.js"
 }
