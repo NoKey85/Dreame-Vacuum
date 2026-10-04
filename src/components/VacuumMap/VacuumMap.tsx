@@ -20,6 +20,7 @@ import { VacuumPositionMarker } from './VacuumPositionMarker';
 import { ChargerMarker } from './ChargerMarker';
 import { RoomLabels } from './RoomLabels';
 import './VacuumMap.scss';
+import './ObstaclePicture.scss';
 
 interface VacuumMapProps {
   mapEntityId: string;
