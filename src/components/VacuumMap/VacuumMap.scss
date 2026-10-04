@@ -58,8 +58,9 @@
     border: 0;
     outline: 0;
     border-radius: 50%;
-    background: transparent;
-    box-shadow: none;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
     appearance: none;
     -webkit-appearance: none;
     transform: translate(-50%, calc(-50% - 10px));
