@@ -111,6 +111,7 @@ export function VacuumMap({
     setImageDimensions({ width: 0, height: 0 });
   }
   const [roomViewMode, setRoomViewMode] = useState<RoomViewMode>(defaultRoomView);
+  const [selectedObstacle, setSelectedObstacle] = useState<{ id: string; type: string; possibility?: number; room?: string; pictureUrl?: string } | null>(null);
 
   // Map lock state - persisted to localStorage, default: locked
   const [isMapLocked, setIsMapLocked] = useState(() => {
@@ -159,6 +160,33 @@ export function VacuumMap({
   const showVacuumMarker = overlays.includes('vacuum') && vacuumPosition && hasDimensions && transform;
   const showChargerMarker = overlays.includes('charger') && chargerPosition && hasDimensions && transform;
   const showRoomLabels = overlays.includes('room_labels') && hasDimensions && transform;
+
+  const obstaclePictures = (mapEntity?.attributes?.obstacle_picture ?? {}) as Record<string, string>;
+  const obstacles = (mapEntity?.attributes?.obstacles ?? {}) as Record<string, {
+    x?: number;
+    y?: number;
+    type?: string;
+    possibility?: number;
+    room?: string;
+    picture_status?: string;
+  }>;
+  const interactiveObstacles = hasDimensions && transform
+    ? Object.entries(obstacles)
+        .filter(([, obstacle]) => typeof obstacle.x === 'number' && typeof obstacle.y === 'number' && obstacle.picture_status === 'Uploaded')
+        .map(([id, obstacle]) => {
+          const position = transform.vacuumToMap({ x: obstacle.x as number, y: obstacle.y as number });
+          const pictureEntry = Object.entries(obstaclePictures).find(([label]) => label.startsWith(`${id}: `));
+          return {
+            id,
+            type: obstacle.type ?? 'Obstacle',
+            possibility: obstacle.possibility,
+            room: obstacle.room,
+            x: position.x,
+            y: position.y,
+            pictureUrl: pictureEntry?.[1],
+          };
+        })
+    : [];
 
   const handleImageLoad = useCallback(
     (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -231,6 +259,21 @@ export function VacuumMap({
                 draggable={false}
               />
 
+              {interactiveObstacles.map((obstacle) => (
+                <button
+                  key={obstacle.id}
+                  type="button"
+                  className="vacuum-map__obstacle-hotspot"
+                  style={{ left: `${(obstacle.x / imageDimensions.width) * 100}%`, top: `${(obstacle.y / imageDimensions.height) * 100}%` }}
+                  aria-label={`View ${obstacle.type} picture`}
+                  title={`${obstacle.type}${obstacle.possibility ? ` ${obstacle.possibility}%` : ''}`}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setSelectedObstacle(obstacle);
+                  }}
+                />
+              ))}
+
               {showChargerMarker && (
                 <ChargerMarker
                   position={chargerPosition}
@@ -302,6 +345,24 @@ export function VacuumMap({
           {t('vacuum_map.no_map')}
           <br />
           <small>{t('vacuum_map.looking_for', { entity: mapEntityId })}</small>
+        </div>
+      )}
+
+      {selectedObstacle && (
+        <div className="vacuum-map__obstacle-modal-backdrop" onClick={() => setSelectedObstacle(null)}>
+          <div className="vacuum-map__obstacle-modal" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+            <button type="button" className="vacuum-map__obstacle-close" aria-label="Close" onClick={() => setSelectedObstacle(null)}>×</button>
+            <div className="vacuum-map__obstacle-title">{selectedObstacle.type}</div>
+            <div className="vacuum-map__obstacle-meta">
+              {selectedObstacle.possibility !== undefined && <span>{selectedObstacle.possibility}% confidence</span>}
+              {selectedObstacle.room && <span>{selectedObstacle.room}</span>}
+            </div>
+            {selectedObstacle.pictureUrl ? (
+              <img src={hass.hassUrl(selectedObstacle.pictureUrl)} alt={`${selectedObstacle.type} detected by vacuum`} className="vacuum-map__obstacle-picture" />
+            ) : (
+              <div className="vacuum-map__obstacle-no-picture">Picture unavailable</div>
+            )}
+          </div>
         </div>
       )}
 
