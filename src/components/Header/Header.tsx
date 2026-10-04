@@ -55,8 +55,6 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
         )}
       </div>
 
-      <p className="header__status">{statusText}</p>
-
       {rawState !== 'sleeping' && progress > 0 && (
         <div className="header__progress">
           <div className="header__progress-bar">
@@ -72,6 +70,7 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
             {batteryLevel} {t('units.percent')}
           </span>
         </div>
+        <p className="header__status">{statusText}</p>
         <div className="header__stat header__stat--area">
           <span className="header__stat-icon">{AREA_ICON_SVG}</span>
           <span className="header__stat-value">
