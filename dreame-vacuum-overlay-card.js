@@ -26627,7 +26627,7 @@ function Rx({
                   "div",
                   {
                     className: "vacuum-map__obstacle-click-layer",
-                    onPointerUp: (Ce) => {
+                    onClick: (Ce) => {
                       const Ke = W.current?.querySelector(".vacuum-map__image");
                       if (!Ke || !B.width || !B.height) return;
                       const Tt = Ke.getBoundingClientRect();
@@ -26638,7 +26638,7 @@ function Rx({
                         const Ln = Math.hypot(Dn.x - Ea, Dn.y - Ta);
                         Ln < On && (Rn = Dn, On = Ln);
                       }
-                      const ft = Math.max(B.width, B.height) * 0.065;
+                      const ft = Math.max(B.width, B.height) * 0.1;
                       Rn && On <= ft && (Ce.stopPropagation(), ee(Rn));
                     }
                   }
