@@ -47,6 +47,28 @@
     -webkit-user-drag: none;
   }
 
+  // Invisible DOM hit targets aligned to Dreame's calibrated obstacle coordinates.
+  // These sit above the map image so obstacle clicks never reach the pan/zoom surface.
+  &__obstacle-hit-target {
+    position: absolute;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    pointer-events: auto;
+    touch-action: none;
+    cursor: pointer;
+  }
+
   &__placeholder {
     color: var(--text-secondary);
     text-align: center;
