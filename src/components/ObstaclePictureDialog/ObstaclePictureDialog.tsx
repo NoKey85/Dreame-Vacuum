@@ -76,7 +76,7 @@ class DreameObstaclePictureDialog extends HTMLElement {
 
     const close = document.createElement('button');
     close.type = 'button';
-    close.slot = 'headerNavigationIcon';
+    close.slot = 'headerActionItems';
     close.className = 'dreame-obstacle-dialog__close';
     close.setAttribute('aria-label', 'Close');
     close.textContent = '×';
