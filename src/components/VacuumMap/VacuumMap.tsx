@@ -174,7 +174,18 @@ export function VacuumMap({
         .filter(([, obstacle]) => typeof obstacle.x === 'number' && typeof obstacle.y === 'number' && obstacle.picture_status === 'Uploaded')
         .map(([id, obstacle]) => {
           const position = transform.vacuumToMap({ x: obstacle.x as number, y: obstacle.y as number });
-          const pictureEntry = Object.entries(obstaclePictures).find(([label]) => label.startsWith(`${id}: `));
+          // The human-readable obstacle_picture label is a display sequence and can
+          // drift when Dreame removes an obstacle. The proxy URL's index= value is
+          // the stable link back to the obstacle record.
+          const pictureEntry = Object.entries(obstaclePictures).find(([, pictureUrl]) => {
+            try {
+              const url = new URL(pictureUrl, window.location.origin);
+              return url.searchParams.get('index') === id;
+            } catch {
+              const match = pictureUrl.match(/[?&]index=(\\d+)(?:&|$)/);
+              return match?.[1] === id;
+            }
+          });
           return {
             id,
             type: obstacle.type ?? 'Obstacle',
