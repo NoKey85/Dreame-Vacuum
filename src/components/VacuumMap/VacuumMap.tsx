@@ -359,6 +359,13 @@ export function VacuumMap({
                   }}
                   onClick={(event) => {
                     event.stopPropagation();
+                    const rect = event.currentTarget.getBoundingClientRect();
+                    const insideTarget =
+                      event.clientX >= rect.left &&
+                      event.clientX <= rect.right &&
+                      event.clientY >= rect.top &&
+                      event.clientY <= rect.bottom;
+                    if (!insideTarget) return;
                     openObstacleDialog(obstacle, event.currentTarget);
                   }}
                 />
