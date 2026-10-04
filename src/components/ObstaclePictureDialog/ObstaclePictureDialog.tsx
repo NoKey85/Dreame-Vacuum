@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import type { Root } from 'react-dom/client';
-import type { HomeAssistant } from '../../types/homeassistant';
+import type { Hass } from '../../types/homeassistant';
 import './ObstaclePictureDialog.scss';
 
 interface DialogParams {
@@ -14,7 +14,7 @@ interface DialogParams {
 class DreameObstaclePictureDialog extends HTMLElement {
   private root?: Root;
   private params?: DialogParams;
-  public hass?: HomeAssistant;
+  public hass?: Hass;
 
   connectedCallback() {
     this.renderDialog();
