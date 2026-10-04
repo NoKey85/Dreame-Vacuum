@@ -1,0 +1,80 @@
+.vacuum-map__obstacle-hotspot {
+  position: absolute;
+  width: 2.25rem;
+  height: 2.25rem;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 8;
+}
+
+.vacuum-map__obstacle-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(0 0 0 / 50%);
+}
+
+.vacuum-map__obstacle-modal {
+  position: relative;
+  width: min(32rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 0.875rem;
+  background: var(--ha-card-background, white);
+  color: var(--primary-text-color);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 28%);
+}
+
+.vacuum-map__obstacle-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary-text-color);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.vacuum-map__obstacle-title {
+  padding-right: 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.vacuum-map__obstacle-meta {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0.75rem;
+  color: var(--secondary-text-color);
+  font-size: 0.875rem;
+}
+
+.vacuum-map__obstacle-picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 28rem;
+  object-fit: contain;
+  border-radius: 0.625rem;
+}
+
+.vacuum-map__obstacle-no-picture {
+  padding: 2rem;
+  text-align: center;
+  color: var(--secondary-text-color);
+}
