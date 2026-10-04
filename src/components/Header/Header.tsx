@@ -70,7 +70,7 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
             {batteryLevel} {t('units.percent')}
           </span>
         </div>
-        <p className="header__status">{statusText}</p>
+        <p className={`header__status header__status--${rawState === 'charging_completed' ? 'complete' : rawState === 'charging' ? 'charging' : 'default'}`}>{statusText}</p>
         <div className="header__stat header__stat--area">
           <span className="header__stat-icon">{AREA_ICON_SVG}</span>
           <span className="header__stat-value">
