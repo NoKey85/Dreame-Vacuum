@@ -194,9 +194,9 @@
       .header__settings-btn {
         width: 2.75rem;
         height: 2.75rem;
-        background: var(--accent-color);
-        color: var(--text-primary-invert);
-        box-shadow: 0 0.125rem 0.5rem var(--card-shadow);
+        background: transparent;
+        color: var(--accent-color);
+        box-shadow: none;
       }
 
       .map-selector {
