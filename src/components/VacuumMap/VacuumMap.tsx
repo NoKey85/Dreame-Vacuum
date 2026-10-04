@@ -104,7 +104,7 @@ export function VacuumMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const pointerStartRef = useRef<{ x: number; y: number; pointerId: number } | null>(null);
+  const pointerStartRef = useRef<{ x: number; y: number; pointerId: number; obstacle: boolean } | null>(null);
   const resetTransformRef = useRef<(() => void) | null>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const [loadedMapUrl, setLoadedMapUrl] = useState(mapUrl);
@@ -210,18 +210,17 @@ export function VacuumMap({
     [mapUrl, onImageDimensionsChange]
   );
 
-  const openObstacleDialog = useCallback((clientX: number, clientY: number) => {
+  const findObstacleAtPoint = useCallback((clientX: number, clientY: number) => {
     const img = imageRef.current;
-    if (!img || !imageDimensions.width || !imageDimensions.height || interactiveObstacles.length === 0) return false;
+    if (!img || !imageDimensions.width || !imageDimensions.height || interactiveObstacles.length === 0) return undefined;
 
     const rect = img.getBoundingClientRect();
-    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) return false;
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) return undefined;
 
     const clickX = ((clientX - rect.left) / rect.width) * imageDimensions.width;
     const clickY = ((clientY - rect.top) / rect.height) * imageDimensions.height;
     let nearest: (typeof interactiveObstacles)[number] | undefined;
     let nearestDistance = Number.POSITIVE_INFINITY;
-
     for (const obstacle of interactiveObstacles) {
       const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
       if (distance < nearestDistance) {
@@ -229,9 +228,14 @@ export function VacuumMap({
         nearestDistance = distance;
       }
     }
-
     const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.08;
-    if (!nearest || nearestDistance > hitRadius) return false;
+    return nearest && nearestDistance <= hitRadius ? nearest : undefined;
+  }, [imageDimensions, interactiveObstacles]);
+
+  const openObstacleDialog = useCallback((clientX: number, clientY: number) => {
+    const img = imageRef.current;
+    const nearest = findObstacleAtPoint(clientX, clientY);
+    if (!img || !nearest) return false;
 
     const detail = {
       title: nearest.type,
@@ -251,7 +255,7 @@ export function VacuumMap({
       },
     }));
     return true;
-  }, [hass, imageDimensions, interactiveObstacles]);
+  }, [findObstacleAtPoint, hass]);
 
   useEffect(() => {
     const target = mapRef.current;
@@ -259,20 +263,27 @@ export function VacuumMap({
 
     const onPointerDown = (event: PointerEvent) => {
       if (event.button !== 0) return;
-      pointerStartRef.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      const obstacle = Boolean(findObstacleAtPoint(event.clientX, event.clientY));
+      pointerStartRef.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId, obstacle };
+      if (obstacle) {
+        // Claim obstacle gestures before react-zoom-pan-pinch can start panning.
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
     };
 
     const onPointerUp = (event: PointerEvent) => {
       const start = pointerStartRef.current;
       pointerStartRef.current = null;
-      if (!start || start.pointerId !== event.pointerId) return;
+      if (!start || start.pointerId !== event.pointerId || !start.obstacle) return;
 
-      // A click/tap may jitter a few pixels. A real drag remains map navigation.
-      if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
 
-      if (openObstacleDialog(event.clientX, event.clientY)) {
-        event.preventDefault();
-        event.stopPropagation();
+      // Small movement is a click. Larger movement over an obstacle is swallowed
+      // so the map never starts a drag from an obstacle marker.
+      if (Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8) {
+        openObstacleDialog(event.clientX, event.clientY);
       }
     };
 
@@ -289,7 +300,7 @@ export function VacuumMap({
       target.removeEventListener('pointerup', onPointerUp, true);
       target.removeEventListener('pointercancel', onPointerCancel, true);
     };
-  }, [openObstacleDialog]);
+  }, [findObstacleAtPoint, openObstacleDialog]);
 
   // Determine if panning should be enabled (disabled when locked or in zone mode for zone creation)
   const isPanningEnabled = !isMapLocked && selectedMode !== 'zone';
