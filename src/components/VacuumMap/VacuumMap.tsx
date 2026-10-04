@@ -112,7 +112,6 @@ export function VacuumMap({
     setImageDimensions({ width: 0, height: 0 });
   }
   const [roomViewMode, setRoomViewMode] = useState<RoomViewMode>(defaultRoomView);
-  const [selectedObstacle, setSelectedObstacle] = useState<{ id: string; type: string; possibility?: number; room?: string; pictureUrl?: string } | null>(null);
 
   // Map lock state - persisted to localStorage, default: locked
   const [isMapLocked, setIsMapLocked] = useState(() => {
@@ -274,7 +273,25 @@ export function VacuumMap({
                   const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.08;
                   if (nearest && nearestDistance <= hitRadius) {
                     event.stopPropagation();
-                    setSelectedObstacle(nearest);
+                    const detail = {
+                      title: nearest.type,
+                      content: nearest.pictureUrl
+                        ? hass.hassUrl(nearest.pictureUrl)
+                        : undefined,
+                      type: nearest.type,
+                      possibility: nearest.possibility,
+                      room: nearest.room,
+                    };
+                    const dialogEvent = new CustomEvent('show-dialog', {
+                      bubbles: true,
+                      composed: true,
+                      detail: {
+                        dialogTag: 'dreame-obstacle-picture-dialog',
+                        dialogImport: () => import('../ObstaclePictureDialog/ObstaclePictureDialog'),
+                        dialogParams: detail,
+                      },
+                    });
+                    event.currentTarget.dispatchEvent(dialogEvent);
                   }
                 }}
                 draggable={false}
@@ -357,23 +374,6 @@ export function VacuumMap({
       )}
 
 
-      {selectedObstacle && (
-        <div className="vacuum-map__obstacle-modal-backdrop" onClick={() => setSelectedObstacle(null)}>
-          <div className="vacuum-map__obstacle-modal" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
-            <button type="button" className="vacuum-map__obstacle-close" aria-label="Close" onClick={() => setSelectedObstacle(null)}>×</button>
-            <div className="vacuum-map__obstacle-title">{selectedObstacle.type}</div>
-            <div className="vacuum-map__obstacle-meta">
-              {selectedObstacle.possibility !== undefined && <span>{selectedObstacle.possibility}% confidence</span>}
-              {selectedObstacle.room && <span>{selectedObstacle.room}</span>}
-            </div>
-            {selectedObstacle.pictureUrl ? (
-              <img src={hass.hassUrl(selectedObstacle.pictureUrl)} alt={`${selectedObstacle.type} detected by vacuum`} className="vacuum-map__obstacle-picture" />
-            ) : (
-              <div className="vacuum-map__obstacle-no-picture">Picture unavailable</div>
-            )}
-          </div>
-        </div>
-      )}
 
       {selectedMode === 'room' && (
         <>
