@@ -103,7 +103,6 @@ export function VacuumMap({
   const mapUrl = typeof entityPicture === 'string' ? entityPicture : undefined;
   const mapRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const resetTransformRef = useRef<(() => void) | null>(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const [loadedMapUrl, setLoadedMapUrl] = useState(mapUrl);
