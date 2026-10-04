@@ -1,0 +1,107 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { DreameVacuumCard } from './components/DreameVacuumCard';
+import { ErrorBoundary } from './components/common';
+import type { Hass, HassConfig } from './types/homeassistant';
+import { validateConfig } from './utils/typeGuards';
+import { attachLoggerToWindow, logger } from './utils/logger';
+import styles from './styles.scss?inline';
+
+// Attach logger controls to window for dev tools access
+attachLoggerToWindow();
+
+class DreameVacuumMapCard extends HTMLElement {
+  private _root: ReactDOM.Root | null = null;
+  private _hass?: Hass;
+  private _config?: HassConfig;
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+
+    const styleEl = document.createElement('style');
+    styleEl.textContent = styles;
+    this.shadowRoot!.appendChild(styleEl);
+  }
+
+  setConfig(config: HassConfig) {
+    // Validate configuration
+    const validation = validateConfig(config);
+
+    if (!validation.valid) {
+      throw new Error(`Invalid configuration: ${validation.errors.join('; ')}`);
+    }
+
+    // Log warnings in development
+    if (validation.warnings.length > 0) {
+      logger.warn('Configuration warnings:', validation.warnings);
+    }
+
+    this._config = config;
+    this.render();
+  }
+
+  set hass(hass: Hass) {
+    this._hass = hass;
+    this.render();
+  }
+
+  private render() {
+    if (!this._hass || !this._config || !this.shadowRoot) return;
+
+    let container = this.shadowRoot.querySelector('#react-root') as HTMLElement;
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'react-root';
+      this.shadowRoot.appendChild(container);
+    }
+
+    if (!this._root) {
+      this._root = ReactDOM.createRoot(container);
+    }
+
+    this._root.render(
+      <React.StrictMode>
+        <ErrorBoundary>
+          <DreameVacuumCard hass={this._hass} config={this._config} />
+        </ErrorBoundary>
+      </React.StrictMode>
+    );
+  }
+
+  getCardSize() {
+    return 4;
+  }
+
+  static getStubConfig() {
+    return {
+      type: 'custom:dreame-vacuum-map-card',
+      entity: 'vacuum.dreame_vacuum',
+      title: 'Dreame Vacuum',
+    };
+  }
+}
+
+customElements.define('dreame-vacuum-map-card', DreameVacuumMapCard);
+
+declare global {
+  interface Window {
+    customCards?: Array<{
+      type: string;
+      name: string;
+      description: string;
+    }>;
+  }
+}
+
+// Register card with Home Assistant custom cards list
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'dreame-vacuum-map-card',
+  name: 'Dreame Vacuum Map Card',
+  description: 'Custom vacuum map card for Dreame vacuum cleaners',
+});
+
+logger.info('Dreame Vacuum Map Card (React) loaded');
+
+export default DreameVacuumMapCard;
