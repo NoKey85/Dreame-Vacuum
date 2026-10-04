@@ -47,7 +47,6 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
       <div className="header__top">
         <div className="header__title-wrapper">
           <h2 className="header__title">{deviceName}</h2>
-          <p className="header__status">{statusText}</p>
         </div>
         {onSettingsClick && (
           <button className="header__settings-btn" onClick={onSettingsClick} type="button" aria-label="Settings">
@@ -55,6 +54,8 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
           </button>
         )}
       </div>
+
+      <p className="header__status">{statusText}</p>
 
       {rawState !== 'sleeping' && progress > 0 && (
         <div className="header__progress">
@@ -65,22 +66,22 @@ export function Header({ deviceName, onSettingsClick }: HeaderProps) {
       )}
 
       <div className="header__stats">
-        <div className="header__stat">
+        <div className="header__stat header__stat--battery">
+          <span className="header__stat-icon">{getBatteryLevelIcon()}</span>
+          <span className="header__stat-value">
+            {batteryLevel} {t('units.percent')}
+          </span>
+        </div>
+        <div className="header__stat header__stat--area">
           <span className="header__stat-icon">{AREA_ICON_SVG}</span>
           <span className="header__stat-value">
             {cleanedArea} {areaUnit}
           </span>
         </div>
-        <div className="header__stat">
+        <div className="header__stat header__stat--time">
           <span className="header__stat-icon">{HISTORY_ICON_SVG}</span>
           <span className="header__stat-value--cleaning-time">
             {cleaningTime} {t('units.minutes')}
-          </span>
-        </div>
-        <div className="header__stat">
-          <span className="header__stat-icon">{getBatteryLevelIcon()}</span>
-          <span className="header__stat-value">
-            {batteryLevel} {t('units.percent')}
           </span>
         </div>
       </div>
