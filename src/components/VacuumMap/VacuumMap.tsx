@@ -113,6 +113,7 @@ export function VacuumMap({
   }
   const [roomViewMode, setRoomViewMode] = useState<RoomViewMode>(defaultRoomView);
   const [selectedObstacle, setSelectedObstacle] = useState<{ id: string; type: string; possibility?: number; room?: string; pictureUrl?: string } | null>(null);
+  const [obstacleDebug, setObstacleDebug] = useState<string | null>(null);
 
   // Map lock state - persisted to localStorage, default: locked
   const [isMapLocked, setIsMapLocked] = useState(() => {
@@ -279,6 +280,7 @@ export function VacuumMap({
                     }
                   }
                   const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.1;
+                  setObstacleDebug(`click ${Math.round(clickX)},${Math.round(clickY)} | nearest ${nearest?.id ?? 'none'} ${nearest?.type ?? ''} @ ${nearest ? Math.round(nearest.x) : '-'},${nearest ? Math.round(nearest.y) : '-'} | d=${Number.isFinite(nearestDistance) ? Math.round(nearestDistance) : '-'} r=${Math.round(hitRadius)} | obstacles=${interactiveObstacles.length}`);
                   if (nearest && nearestDistance <= hitRadius) {
                     event.stopPropagation();
                     setSelectedObstacle(nearest);
@@ -357,6 +359,12 @@ export function VacuumMap({
           {t('vacuum_map.no_map')}
           <br />
           <small>{t('vacuum_map.looking_for', { entity: mapEntityId })}</small>
+        </div>
+      )}
+
+      {obstacleDebug && (
+        <div className="vacuum-map__obstacle-debug" onClick={() => setObstacleDebug(null)}>
+          {obstacleDebug}
         </div>
       )}
 
