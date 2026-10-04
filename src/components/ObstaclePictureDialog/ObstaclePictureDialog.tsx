@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import type { Root } from 'react-dom/client';
-import type { HomeAssistant } from '../../types/home-assistant';
+import type { HomeAssistant } from '../../types/homeassistant';
 import './ObstaclePictureDialog.scss';
 
 interface DialogParams {
