@@ -1,6 +1,3 @@
-import { createRoot } from 'react-dom/client';
-import type { Root } from 'react-dom/client';
-import type { Hass } from '../../types/homeassistant';
 import './ObstaclePictureDialog.scss';
 
 interface DialogParams {
@@ -11,45 +8,107 @@ interface DialogParams {
   room?: string;
 }
 
+/**
+ * Home Assistant 2026 dialog-manager compatible obstacle picture dialog.
+ *
+ * HA's current manager detects dialogNext=true, assigns params before the
+ * element is connected, then appends it to the frontend dialog host.  The
+ * adaptive dialog supplies the real modal/scrim/focus behavior.
+ */
 class DreameObstaclePictureDialog extends HTMLElement {
-  private root?: Root;
-  private params?: DialogParams;
-  public hass?: Hass;
+  public readonly dialogNext = true as const;
+  public dialogAnchor?: Element;
+
+  private _params?: DialogParams;
+  private _dialog?: HTMLElement & { open?: boolean };
+  private _closed = false;
+
+  set params(value: DialogParams | undefined) {
+    this._params = value;
+    if (this.isConnected) this.renderDialog();
+  }
+
+  get params() {
+    return this._params;
+  }
 
   connectedCallback() {
+    this._closed = false;
     this.renderDialog();
   }
 
-  showDialog(params: DialogParams) {
-    this.params = params;
-    this.renderDialog();
+  public closeDialog(): Promise<boolean> | boolean {
+    if (!this._dialog) {
+      this.finishClose();
+      return true;
+    }
+    this._dialog.open = false;
+    return true;
   }
 
-  closeDialog() {
-    this.dispatchEvent(new CustomEvent('dialog-closed', { bubbles: true, composed: true }));
-  }
+  private finishClose = (event?: Event) => {
+    event?.stopPropagation();
+    if (this._closed) return;
+    this._closed = true;
+    this.dispatchEvent(new CustomEvent('dialog-closed', {
+      bubbles: true,
+      composed: true,
+      detail: { dialog: this.localName },
+    }));
+    this.remove();
+  };
 
   private renderDialog() {
-    if (!this.isConnected || !this.params) return;
-    if (!this.root) this.root = createRoot(this);
-    const p = this.params;
-    this.root.render(
-      <div className="dreame-obstacle-dialog">
-        <div className="dreame-obstacle-dialog__header">
-          <button type="button" className="dreame-obstacle-dialog__close" aria-label="Close" onClick={() => this.closeDialog()}>×</button>
-          <div>
-            <div className="dreame-obstacle-dialog__title">{p.type ?? p.title ?? 'Detected obstacle'}</div>
-            <div className="dreame-obstacle-dialog__meta">
-              {p.possibility !== undefined && <span>{p.possibility}% confidence</span>}
-              {p.room && <span>{p.room}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="dreame-obstacle-dialog__body">
-          {p.content ? <img src={p.content} alt={`${p.type ?? 'Obstacle'} detected by vacuum`} /> : <div>Picture unavailable</div>}
-        </div>
-      </div>
-    );
+    if (!this.isConnected || !this._params) return;
+
+    this.replaceChildren();
+
+    const dialog = document.createElement('ha-adaptive-dialog') as HTMLElement & {
+      open?: boolean;
+      width?: string;
+      headerTitle?: string;
+    };
+    dialog.open = true;
+    dialog.width = 'medium';
+    dialog.headerTitle = this._params.type ?? this._params.title ?? 'Detected obstacle';
+    dialog.addEventListener('closed', this.finishClose, { once: true });
+    this._dialog = dialog;
+
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.slot = 'headerNavigationIcon';
+    close.className = 'dreame-obstacle-dialog__close';
+    close.setAttribute('aria-label', 'Close');
+    close.textContent = '×';
+    close.addEventListener('click', () => this.closeDialog());
+    dialog.appendChild(close);
+
+    const body = document.createElement('div');
+    body.className = 'dreame-obstacle-dialog';
+
+    const meta = document.createElement('div');
+    meta.className = 'dreame-obstacle-dialog__meta';
+    const details = [
+      this._params.possibility !== undefined ? `${this._params.possibility}% confidence` : undefined,
+      this._params.room,
+    ].filter(Boolean);
+    meta.textContent = details.join(' · ');
+    if (details.length) body.appendChild(meta);
+
+    const picture = document.createElement('div');
+    picture.className = 'dreame-obstacle-dialog__body';
+    if (this._params.content) {
+      const img = document.createElement('img');
+      img.src = this._params.content;
+      img.alt = `${this._params.type ?? 'Obstacle'} detected by vacuum`;
+      picture.appendChild(img);
+    } else {
+      picture.textContent = 'Picture unavailable';
+    }
+    body.appendChild(picture);
+    dialog.appendChild(body);
+
+    this.appendChild(dialog);
   }
 }
 
