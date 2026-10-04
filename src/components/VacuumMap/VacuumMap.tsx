@@ -260,20 +260,31 @@ export function VacuumMap({
                 draggable={false}
               />
 
-              {interactiveObstacles.map((obstacle) => (
-                <button
-                  key={obstacle.id}
-                  type="button"
-                  className="vacuum-map__obstacle-hotspot"
-                  style={{ left: `${(obstacle.x / imageDimensions.width) * 100}%`, top: `${(obstacle.y / imageDimensions.height) * 100}%` }}
-                  aria-label={`View ${obstacle.type} picture`}
-                  title={`${obstacle.type}${obstacle.possibility ? ` ${obstacle.possibility}%` : ''}`}
-                  onClick={(event) => {
+              <button
+                type="button"
+                className="vacuum-map__obstacle-click-layer"
+                aria-label="Open obstacle picture"
+                onClick={(event) => {
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  if (!rect.width || !rect.height || !imageDimensions.width || !imageDimensions.height) return;
+                  const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
+                  const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
+                  let nearest: (typeof interactiveObstacles)[number] | undefined;
+                  let nearestDistance = Number.POSITIVE_INFINITY;
+                  for (const obstacle of interactiveObstacles) {
+                    const distance = Math.hypot(obstacle.x - clickX, obstacle.y - clickY);
+                    if (distance < nearestDistance) {
+                      nearest = obstacle;
+                      nearestDistance = distance;
+                    }
+                  }
+                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.045;
+                  if (nearest && nearestDistance <= hitRadius) {
                     event.stopPropagation();
-                    setSelectedObstacle(obstacle);
-                  }}
-                />
-              ))}
+                    setSelectedObstacle(nearest);
+                  }
+                }}
+              />
 
               {showChargerMarker && (
                 <ChargerMarker
