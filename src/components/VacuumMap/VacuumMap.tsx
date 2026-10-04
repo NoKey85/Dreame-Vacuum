@@ -260,13 +260,13 @@ export function VacuumMap({
                 draggable={false}
               />
 
-              <button
-                type="button"
+              <div
                 className="vacuum-map__obstacle-click-layer"
-                aria-label="Open obstacle picture"
-                onClick={(event) => {
-                  const rect = event.currentTarget.getBoundingClientRect();
-                  if (!rect.width || !rect.height || !imageDimensions.width || !imageDimensions.height) return;
+                onPointerUp={(event) => {
+                  const image = contentRef.current?.querySelector<HTMLImageElement>('.vacuum-map__image');
+                  if (!image || !imageDimensions.width || !imageDimensions.height) return;
+                  const rect = image.getBoundingClientRect();
+                  if (!rect.width || !rect.height) return;
                   const clickX = ((event.clientX - rect.left) / rect.width) * imageDimensions.width;
                   const clickY = ((event.clientY - rect.top) / rect.height) * imageDimensions.height;
                   let nearest: (typeof interactiveObstacles)[number] | undefined;
@@ -278,7 +278,7 @@ export function VacuumMap({
                       nearestDistance = distance;
                     }
                   }
-                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.045;
+                  const hitRadius = Math.max(imageDimensions.width, imageDimensions.height) * 0.065;
                   if (nearest && nearestDistance <= hitRadius) {
                     event.stopPropagation();
                     setSelectedObstacle(nearest);
